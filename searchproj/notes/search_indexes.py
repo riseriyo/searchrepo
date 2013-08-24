@@ -16,7 +16,7 @@ class NoteIndex(indexes.SearchIndex, indexes.Indexable):
 	'''haystack's searchindex object handles data flow into elasticsearch'''
 	
 	text 		= indexes.EdgeNgramField(document=True, use_template=True)
-	author 		= indexes.CharField(model_attr='user')
+	user		= indexes.CharField(model_attr='author')
 	pub_date 	= indexes.DateTimeField(model_attr='pub_date')
 	title		= indexes.CharField(model_attr='title')
 	body		= indexes.CharField(model_attr='body')

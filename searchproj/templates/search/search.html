@@ -3,7 +3,7 @@
 {% block content %}
         {% if query %}
             <h3>Results</h3>
-            <p>Showing results for: {{ query }} </p>
+            <p>Showing results for: &quot;{{ query }}&quot; </p>
 
             {% for result in page.object_list %}
                     Result Object: {{ result }}<br />

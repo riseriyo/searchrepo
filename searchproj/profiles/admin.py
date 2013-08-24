@@ -43,11 +43,11 @@ class UserProfileAdmin(admin.ModelAdmin):
 	
 class NoteAdmin(admin.ModelAdmin):
 	fieldsets		= [
-					('Title', { 'fields': ['author','title']}),
+					('Title', { 'fields': ['user','title']}),
 					('Published date',{ 'fields': ['pub_date']}),
 					('Body', { 'fields': ['body']}),
 					]
-	list_display	= ('author', 'pub_date', 'title', 'body')
+	list_display	= ('user', 'pub_date', 'title', 'body')
 	
 class SubmissionAdmin(admin.ModelAdmin):
 	fieldsets		= [

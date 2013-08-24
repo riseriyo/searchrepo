@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from model_utils.models import TimeStampedModel
 
 class Note(TimeStampedModel):
-	author 		= models.ForeignKey(User)
+	user		= models.ForeignKey('profiles.UserProfile', related_name='author') # a submission remembers who submitted it
 	pub_date 	= models.DateTimeField()
 	title 		= models.CharField(max_length=200)
 	body 		= models.TextField()
