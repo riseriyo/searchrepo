@@ -1,0 +1,375 @@
+{% extends "accounts/dashboard_base.html" %}
+{% load staticfiles %}
+
+{% comment %}
+**accounts/submission_form.html**
+customized submission form that allows user to
+upload a scene file or a file of a given format
+to the MFB server
+{% endcomment %}
+
+{% block submission-form %}
+<h3 class="dashboard-headings">Upload your file</h3>
+<form action="{% url 'upload' %}" id="submissionUpload" method="post" enctype="multipart/form-data">{% csrf_token %}
+{% if subform.errors or ftform.errors or revform.errors  %}<p class="errorlist">Please correct the following fields:<br /> 
+	{% if revform.sourcefile.errors %}<span class="errorlist">[Sourcefile] {{ revform.sourcefile.errors }}</span>{% endif %}
+	{% if ftform.filetype.errors %}<span class="errorlist">[Filetype] {{ ftform.filetype.errors }}</span>{% endif %}
+	{% if revform.vidpic.errors %}<span class="errorlist">[Thumbnail] {{ revform.vidpic.errors }}</span>{% endif %}
+	{% if revform.vidanimation.errors %}<span class="errorlist">[Video]{{ revform.vidanimation.errors }}</span>{% endif %}
+	{% if subform.title.errors %}<span class="errorlist">[Title] {{ subform.title.errors }}</span>{% endif %}
+	{% if subform.description.errors %}<span class="errorlist">[Description] {{ subform.description.errors }}</span>{% endif %}
+	{% if subform.tags.errors %}<span class="errorlist">[Tags] {{ subform.tags.errors }}</span>{% endif %}
+</p>{% endif %}
+	<div id="iconfiletypes">
+		<p id="scene-msg-prompt"><i class="icon-info-sign"></i> Maximum scene file size: 100MB. Accepted file formats are of the following:<br /><br />
+		<span><img src="{% static 'img/icons/icon_blender_32.png' %}" id="iconfile" alt=".blend (Blender)" title=".blend (Blender)" /></span>
+		<span><img src="{% static 'img/icons/icon_maya_32.png' %}" id="iconfile" alt=".ma/.mb (Maya)" title=".ma/.mb (Maya)" /></span>
+		<span><img src="{% static 'img/icons/icon_c4d_32.png' %}" id="iconfile" alt=".c4d (Cinema 4D)" title=".c4d (Cinema4D)" /></span>
+		<span><img src="{% static 'img/icons/icon_3ds_32.png' %}" id="iconfile" alt=".max/.3ds (3DS Max)" title=".max/.3ds (3DSMax)" /></span>
+		<span><img src="{% static 'img/icons/icon_dae_32.png' %}" id="iconfile" alt=".dae (Collada)" title=".dae (Collada)" /></span>
+		<span><img src="{% static 'img/icons/icon_x3d_32.png' %}" id="iconfile" alt=".x3d (Web3D)" title=".x3d (Web3D)" /></span>
+		<span><img src="{% static 'img/icons/icon_illustrator_32.png' %}" id="iconfile" alt=".ai (Adobe Illustrator)" title=".ai (Illustrator)"/></span>
+		<span><img src="{% static 'img/icons/icon_photoshop_32.png' %}" id="iconfile" alt=".psd/.eps (Adobe Photoshop)" title=".psd/.eps (Photoshop)" /></span>
+		<!--  <i class="icon-info-sign"></i> -->
+		</p> <br />
+	</div>
+	
+	<!-- <label for="sourcefile"{% if revform.sourcefile.errors %} class="error"{% endif %}>Source File: </label> -->
+	<span id='source-wrapper' class="file-wrapper">
+	{{ revform.sourcefile }}
+	<span class='browsebtn'>Browse</span><span id="filetype-error-msg-prompt"><strong>ERROR:</strong> File format not accepted. Please choose another file.</span>
+	</span>
+	<div id="progressbar"><div class="progress-label">Loading...</div></div>
+	
+	<!--  keep to use later for file format selection on server side and tracking in DB -->
+	<!-- <label for="filetype"{% if ftform.filetype.errors %} class="error"{% endif %}>Filetype: </label>  -->
+	{{ ftform.filetype }}
+				
+	<div id="info-msg-prompt">
+		<p id="info-error-msg-prompt"><strong>ERROR:</strong> File format not accepted. Please choose another file.</p><br />
+	</div>
+	
+	<div class="row-fluid">
+		<div class="span4">
+			
+			<div id="thumbnail_upload_pic">
+				<label for="id_vidpic"{% if revform.vidpic.errors %} class="error"{% endif %}>Thumbnail: </label>
+				<span ><img src="{% static 'img/icons/upload_thumbnail_1024x576.png' %}" id="thumbnail-upload" alt="thumbnail_upload_1024x576"  title="Upload a thumbnail"/></span><br />
+				<p id="vidpic-msg-prompt" style="font-size:x-small"><i class="icon-info-sign" ></i> Max. size: 5MB. Accepted files: .gif, .jpg, .png</p>
+				<span id='thumbnail-wrapper' class="file-wrapper">
+				{{ revform.vidpic }}
+				<span id="browsethumbnail" class="browsebtn">Browse</span>
+				</span>
+				<div class="progress progress-striped active" id="outer-bar-vidpic"><div class="bar" id='inner-bar-vidpic' style="width: 40%;"></div></div>
+				<br /><br />
+			</div>
+			
+			<div id="vid_upload_pic">
+				<label for="id_vidanimation"{% if revform.vidanimation.errors %} class="error"{% endif %}>Video File: </label>
+				<span ><img src="{% static 'img/icons/upload_video_1024x576.png' %}" id="video-upload" alt="video_upload_1024x576"  title="Upload an animation video"/></span><br />
+				<p id="vidanimation-msg-prompt" style="font-size:x-small"><i class="icon-info-sign"></i> Max. size: 50MB. Accepted files: .avi, .mov, .mp4, .wmv</p>
+				<span id='vid-wrapper' class="file-wrapper">
+				{{ revform.vidanimation }}
+				<span id="browsevid" class="browsebtn">Browse</span>
+				</span>
+				<div class="progress progress-striped active" id="outer-bar-vidanimation"><div class="bar" id='inner-bar-vidanimation' style="width: 40%;"></div></div>
+				<br /><br />
+			</div>
+			
+		</div>
+		
+		<div class="span8">
+			<label class="placeholder">{{ subform.title }} Edit title</label><br />
+			
+			{{ subform.description }}<br />
+			
+			{{ subform.tags }}<br />
+		</div>
+	</div> <!-- end row-fluid -->
+	
+	<div id='submissionInput' align="center">
+	<br />
+	<input type="submit" class="big bg-color-greenLight" alt="Registration Form" value="Submit Now" /><span> </span><input id='startOver' type='button' class='big bg-color-greenLight' alt='Reset Sourcefile' value="Start Over" />
+	<br /><br />
+	</div>
+</form>
+
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+	
+		window.reset2 = function(e){
+			e.wrap('<form>').closest('form').get(0).reset();
+			e.unwrap();
+		}
+		
+		initSubmissionForm = function() {
+			reset2($('#id_sourcefile'));
+			reset2($('#id_vidpic'));
+			reset2($('#id_vidanimation'));
+			$('#filetype-select').find('option:selected').val(0);
+			$('#filetype-select').find('option:selected').text("Select file format of source file");
+			$('.errorlist').css('visiblity', 'hidden');
+			$("#vidpic-msg-prompt,#thumbnail-upload,#id_vidpic,#browsethumbnail,#vidanimation-msg-prompt,#video-upload,#id_vidanimation,#browsevid,#title,#description,#tags,#submissionInput").css("visibility","hidden");
+			$('.placeholder').css('display','none');
+			$('.file-holder-br').remove();
+			$('.file-holder-label-br').remove();
+			$('.file-holder').remove();
+			$('.file-holder-label').remove();
+			$('#iconfiletypes').show();
+			$('.browsebtn').show();
+			$('#id_sourcefile').css('visibility','visible');
+			$('#title, #description, #tags,').val('');
+			$('#thumbnail-upload').attr('src', "/static/img/icons/upload_thumbnail_1024x576.png");
+			$('#video-upload').attr('src', "/static/img/icons/upload_video_1024x576.png");
+		}
+		function showIconTooltip(target_items,name){
+			$(target_items).each(function(i){
+				$("#iconfiletypes").append("<div class='"+name+"' type='img' id='"+name+i+"'><p>"+$(this).attr('title')+"</p></div>")
+				var my_tooltip = $("#"+name+i);
+				
+				if ($(this).attr('title') != '' && $(this).attr('title') != 'undefined' ){
+					$(this).removeAttr("title").mouseover(function(kmouse){ // //used to avoid using the normal tooltip that browsers use when hovering over links
+						my_tooltip.css({position:"absolute"}).css({ opacity:0.8,display:"none"}).fadeIn(100); 
+					}).mousemove(function(kmouse){
+						var border_top = $(window).scrollTop();
+						var border_right = $(window).width();
+						var left_pos;
+						var top_pos;
+						var offset = 15;
+						if (border_right - (offset*2) >= my_tooltip.width() + kmouse.pageX){
+							left_pos = kmouse.pageX+offset;
+						} else {
+							left_pos = border_right - my_tooltip.width() - offset;
+						}
+						if (border_top + (offset*2) >= kmouse.pageY - my_tooltip.height()){
+							top_pos = border_top + offset;
+						} else {
+							top_pos = kmouse.page - my_tooltip.height() - offset;
+						}
+						my_tooltip.css({position:"absolute"}).css({left:left_pos, top:top_pos}); 
+					}).mouseout(function(){
+						my_tooltip.fadeOut();
+					});
+				}//end if
+			});
+		}
+		
+		// select filetype
+		function setDBFiletype(key,val){
+			$('#filetype-select').find('option:selected').val(key);
+			$('#filetype-select').find('option:selected').text(val);
+			console.log("text: " + $('#filetype-select').find('option:selected').text() + " value: " + $('#filetype-select').find('option:selected').val());
+			return true;
+		}
+		
+		//wrapper input type=file styled button
+		var SITE = SITE || {};
+		//get extension of source file
+		var ext; 
+		var sourceSelected; 
+		var thumbnailSelected; 
+		var videoSelected;
+		 
+		SITE.fileInputs = function() {
+			console.log("inside sourceInputs");
+			
+			var $this = $(this),
+				$val = $this.val(),
+				valArray = $val.split('\\'),
+				newVal = valArray[valArray.length-1],
+				$browsebutton = $this.siblings('.browsebtn'),
+				$fakeFile = $this.siblings('.file-holder'),
+				$inputType = '';
+			
+			sourceSelected = false; 
+			thumbnailSelected = false; 
+			videoSelected = false;
+			
+			console.log("$this is: " + $this + " $val is filepath: " + $val + " newVal is filename: " + newVal + " fakeFile is obj: " + $fakeFile);
+			//check if file exists
+			if(newVal !== '') {
+				//check if extension is correct depending on input type
+				ext = $(this).val().split('.').pop().toLowerCase();
+				var noExt = false;
+				//alert("get ext: " + ext);
+				inputType = $this.attr('id');
+				if (inputType == 'id_sourcefile'){
+					console.log("do SOURCEFILE");
+					
+					switch(ext){
+						case 'blend':
+							sourceSelected = setDBFiletype(20,".blend (Blender)");
+							break;
+						case 'ma':case 'mb':
+							sourceSelected = setDBFiletype(30,".ma/.mb (Maya)");
+							break;
+						case 'c4d':
+							sourceSelected = setDBFiletype(40,".c4d (Cinema 4D)");
+							break;
+						case 'max':case '3ds':
+							sourceSelected = setDBFiletype(50,".max/.3ds (3DS Max)");
+							break;
+						case 'dae':
+							sourceSelected = setDBFiletype(60,".dae (Collada)");
+							break;
+						case 'x3d':
+							sourceSelected = setDBFiletype(70,".x3d (Web 3D)");
+							break;
+						case 'ai':
+							sourceSelected = setDBFiletype(110,".ai (Illustrator)");
+							break;
+						case 'psd': case 'eps':
+							sourceSelected = setDBFiletype(120,".psd/.eps (Photoshop)");
+							break;
+						case '': default:
+							noExt = true;
+					} //end switch
+				} else if (inputType == 'id_vidpic') {
+					console.log("do VIDPIC");
+					switch(ext){
+						case 'png': case 'jpg': case 'jpeg': case 'gif':
+							thumbnailSelected = true;
+							break;
+						case '': default:
+							noExt = true;
+					} //end switch
+				} else if (inputType == 'id_vidanimation'){
+					console.log("do VIDEO");
+					switch(ext){
+						case 'avi': case 'mov': case 'mp4': case 'wmv':
+							videoSelected = true;
+							break;
+						case '': default:
+							noExt = true;
+					} //end switch
+				} //end if-else for ext type
+				
+				//display wrong file format error msg; otherwise, display next 'window' of steps
+				if (noExt) {
+					if (inputType == 'id_sourcefile'){
+						$('#filetype-error-msg-prompt').show().css( 'color','#FF0000');
+						$('#filetype-error-msg-prompt').delay(1500).fadeOut();
+						sourceSelected = false;
+						reset2($('#id_sourcefile'));
+					} else if (inputType == 'id_vidpic'){
+						$('#info-error-msg-prompt').show().css( 'color','#FF0000');
+						$('#info-error-msg-prompt').delay(1500).fadeOut();
+						thumbnailSelected = false;
+						reset2($('#id_vidpic'));
+					} else if (inputType == 'id_vidanimation'){
+						$('#info-error-msg-prompt').show().css( 'color','#FF0000');
+						$('#info-error-msg-prompt').delay(1500).fadeOut();
+						videoSelected = false;
+						reset2($('#id_vidanimation'));
+					}
+				} else { // show selected thumbnail and/or video file
+					//$browsebutton.text('Source File Chosen');
+					if ($fakeFile.length === 0) {
+						if (inputType == 'id_sourcefile' && sourceSelected){
+							$browsebutton.css("display", "none");
+							$("#info-msg-prompt").after('<span class="file-holder">' + newVal + '</span><br class="file-holder-br" /><br class="file-holder-br" />');
+							$('.file-holder').before('<span class="file-holder-label" style="font-weight:bold">Your selected sourcefile: </span>');
+							$('#title').val($('.file-holder').text()); 		//populate title field
+							$('#authors').val('{{ user }}'); 				//populate authors field with logged-in user
+							$('#iconfiletypes').hide();
+							console.log("sourcefile: " + $('#id_sourcefile').val());
+						} else if (inputType == 'id_vidpic' && thumbnailSelected){
+							console.log("before -  your thumbnail")
+							$browsebutton.after('<br class="file-holder-br" /><span id="thumbnail-holder" class="file-holder">' + newVal + '</span><br class="file-holder-br" /><br class="file-holder-br" />');
+							$('#thumbnail-holder').before('<br class="file-holder-label-br" /><span class="file-holder-label" style="font-size:small;font-weight:bold">Your selected thumbnail: </span><br class="file-holder-label-br" />').css('font-size','small');
+							//var sourceFileExt = $('#id_sourcefile').val().split('.')[1];
+							console.log("assign thumbnail ext");
+							var imgDomUrl = ("img/icons/generic-icon-1024x576-").concat(ext, ".png");
+							console.log(imgDomUrl);
+							var newSrcUrl = ("/static/").concat(imgDomUrl);
+							console.log(newSrcUrl);
+							$('#thumbnail-upload').attr('src', newSrcUrl);
+							//imgSelected = true;
+						} else if (inputType == 'id_vidanimation' && videoSelected){
+							$browsebutton.after('<br class="file-holder-br" /><span id="video-holder" class="file-holder">' + newVal + '</span><br class="file-holder-br" /><br class="file-holder-br" />');
+							$('#video-holder').before('<br class="file-holder-label-br" /><span class="file-holder-label" style="font-size:small;font-weight:bold">Your selected video: </span><br class="file-holder-label-br" />').css('font-size','small');
+							//var sourceFileExt = $('#id_sourcefile').val().split('.')[1];
+							//console.log(sourceFileExt);
+							var imgDomUrl = ("img/icons/generic-icon-1024x576-").concat(ext, ".png");
+							console.log(imgDomUrl);
+							var newSrcUrl = ("/static/").concat(imgDomUrl);
+							console.log(newSrcUrl);
+							$('#video-upload').attr('src', newSrcUrl);
+						}
+						
+						//make DOM tags visible depending on the file format
+						if (inputType == 'id_sourcefile'){
+							if (ext == 'ma' || ext == 'mb' || ext == 'c4d' || ext == 'max' || ext == '3ds ' || ext == 'dae'){
+								console.log("inside if ext...");
+								$("#vidpic-msg-prompt,#thumbnail-upload,#id_vidpic,#browsethumbnail,#vidanimation-msg-prompt,#video-upload,#id_vidanimation,#browsevid,#title,#description,#tags,#submissionInput").css("visibility","visible");
+								$('.placeholder').css('display','block');
+							} else if (ext == 'x3d' || ext == 'ai' || ext == 'psd' || ext == 'eps' ){
+								$("#vidpic-msg-prompt,#thumbnail-upload,#id_vidpic,#browsethumbnail,#title,#description,#tags,#submissionInput").css("visibility","visible");
+								$('.placeholder').css('display','block');
+							}
+						} //only for input source file
+						
+					} else { //reset if user selects another thumbnail and/or video file 
+						if (inputType == 'id_sourcefile'){
+							$fakeFile.text(newVal);
+							console.log(newVal);
+						} else if (inputType == 'id_vidpic'){
+							$fakeFile.text(newVal);
+							console.log("assign thumbnail ext");
+							var imgDomUrl = ("img/icons/generic-icon-1024x576-").concat(ext, ".png");
+							console.log(imgDomUrl);
+							var newSrcUrl = ("/static/").concat(imgDomUrl);
+							console.log(newSrcUrl);
+							$('#thumbnail-upload').attr('src', newSrcUrl);
+						} else if (inputType == 'id_vidanimation'){
+							$fakeFile.text(newVal);
+							var imgDomUrl = ("img/icons/generic-icon-1024x576-").concat(ext, ".png");
+							console.log(imgDomUrl);
+							var newSrcUrl = ("/static/").concat(imgDomUrl);
+							console.log(newSrcUrl);
+							$('#video-upload').attr('src', newSrcUrl);
+						}
+					} //end if fakeFile.length
+				} //end if-else no extension
+			} //end if file exists
+		}; //end SITE.fileInputs
+		
+		// Goal: disables form's button so that user cannot send multiple requests to our function
+		//var disableSubmit = function(val, id){
+		//	$(id + 'input[type=submit]').attr('disabled', val);
+		//};
+		
+		// log all events troubleshooting
+		$.fn.log = function(){
+			if (window.console && console.log){
+				console.log("errorlist triggered");
+				console.log($(this).text());
+				console.log($(this).val());
+				console.log($(this).html());
+			}
+		}
+		//*************************************** selector events ****************************
+		
+		//trigger sourcefile, thumbnail, and/or video file upload
+		$('.file-wrapper input[type=file]').bind('change focus click', SITE.fileInputs);
+		
+		//reset form to beginning of submission form page
+		$('#startOver').bind('change focus click', initSubmissionForm);
+		
+		// show file format tooltip
+		$("img #iconfile").on("mouseover", function(){
+			showIconTooltip($(this),"icontooltips");
+		});
+		
+		//submit all data to server
+		$('#submissionUpload').submit(function(){
+			console.log('inside submit function')
+		});
+		
+		//log error messages
+		$('span').find('.errorlist').on('change').log();
+		
+	}); //end ready
+</script>
+{% endblock %}

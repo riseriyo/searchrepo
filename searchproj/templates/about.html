@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<!-- <div class="container-fluid"> -->
+	<!-- <div class="row-container"> -->
+		<div class="span7">
+			<h2 class="dashboard-headings">About</h2>
+			<div>
+				<h3 class="dashboard-headings">Joshua D. Hoaglund</h3>
+				 <!-- <h4>Purpose</h4> -->
+				<p>
+				Joshua D. Hoaglund is a 3D animator at RockStar Games. He has been published in Hellbound 1 and Hellbound 2, an anthology of horror comics.
+				</p>
+			</div>
+			<div>
+				<h3 class="dashboard-headings">Meet the Team</h3>
+				<p>
+				Here's my team: my daughter, Mayari, Nina, our Chihuahua-Fox Terrier mix, Chowder, our geriatric cat, and Momma Rise, our resident software/web developer.
+				<br /><br />
+				</p>
+				<!-- insert mfb team bio info -->
+				<span class='span3 pull-left'><img src="{% static 'img/jdh_200x200.png' %}" title="Joshua_D_Hoaglund" /></span>
+				<span style="font-weight:bold">Joshua D. Hoaglund<br /></span><span style="font-size:small"><span style="font-style:italic">3D Animator, Comic Book Author/Artist</span><br />Email: fliptail7 at yahoo dot com<br />Photo: Mayari</span>
+				<br /><br /><br /><br /><br /><br /><br /><br />
+				<span class='span3 pull-left'><img src="{% static 'img/mayari.png' %}" title="Mayari Riyo-Hoaglund" /></span>
+				<span style="font-weight:bold">Mayari Riyo-Hoaglund<br /></span><span style="font-size:small"><span style="font-style:italic">Aspiring Photographer</span><br />Scientist-in-Training<br />Photo: Selfie!<br /></span>
+				<br /><br /><br /><br /><br /><br /><br />
+				<span class='span3 pull-left'><img src="{% static 'img/rise.png' %}" title="Rise Apprentice Developer" /></span>
+				<span style="font-weight:bold">Momma Rise<br /></span><span style="font-size:small"><span style="font-style:italic">Apprentice Software Developer/Web Developer<br /></span>Wisdom & Wonder<br />Inspired by Strong Women<br />Photo: Mayari</span>
+				<br /><br /><br /><br /><br /><br /><br />
+				<span class='span3 pull-left'><img src="{% static 'img/chowder.png' %}" title="Chowder the Geriatric Cat" /></span>
+				<span style="font-weight:bold">Chowder<br /></span><span style="font-size:small"><span style="font-style:italic">Scruffy, Grumpy, Eunich Feline</span><br />Scratching up the new Ikea furniture!</span><br />
+				<br /><br /><br /><br /><br /><br /><br /><br />
+				<span class='span3 pull-left'><img src="{% static 'img/nina.png' %}" title="Nina, Ninja Dog Warrior" /></span>
+				<span style="font-weight:bold">Nina<br /></span><span style="font-size:small"><span style="font-style:italic">Dancing-with-Crickets<br /></span>Dodging red-tailed hawks & Chowder!<br /></span>
+				<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			</div>
+		</div>
+		
+		<div class="span5">
+			<div class='span5'>
+			<h2 class="dashboard-headings">Advisory Board</h2>
+
+			<p><span style='font-weight:bold'>Rise Riyo</span><br />
+			<span style='font-size:small'>Learning open source technologies</span></p>
+			<p><span style='font-weight:bold'>Mayari Riyo-Hoaglund</span><br />
+			<span style='font-size:small'>Monster High Groupie</span></p>
+			<p><span style='font-weight:bold'>Chowder</span><br />
+			<span style='font-size:small'>Basking in the So Cal Sun</span></p>
+			<p><span style='font-weight:bold'>Nina</span><br />
+			<span style='font-size:small'>Bunnies & Carlsbad Trails</span></p>
+			<br /><br />
+			</div>
+			<div class='span5'>
+			<h2 class="dashboard-headings">Sponsors</h2>
+			<p>
+			Anyone who is interested in <a class="action-anchors" href="http://en.wikipedia.org/wiki/Do_it_yourself" target="_blank">DIY</a> Art.
+			<br /><br />
+			</p>
+			</div>
+		</div><!--  span5 -->
+	<!--  </div>row-container -->
+<!--  </div>container-fluid -->
+{% endblock %}

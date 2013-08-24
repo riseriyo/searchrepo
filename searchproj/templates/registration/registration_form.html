@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% comment %}
+**registration/registration_form.html**
+Customized form with checks for required fields,
+unique username, hidden password input and match
+csrf: cross site request forgery token limits the post
+from form to the domain that the form is on so you can't
+submit to this form from an external domain. stops
+cross site scripting text. use csrf_exempt when needing
+to post from external domain
+{% endcomment %}
+
+{% block content %}
+<section class="registration">
+<h1 class="dashboard-headings">Sign Up</h1>
+	<div class="container-fluid" >
+	<div class="row-fluid">
+		<div class="span2" style="padding-top:2em">
+			<form action="" id="register-form" method="post">
+			{% csrf_token %}
+			{% if form.errors %}<p>Please correct the following fields:</p>{% endif %}
+				<div class="control-group">
+				<div class="controls">
+					{% if form.username.errors %}<p class="error">{{ form.username.errors }}</p>{% endif %}
+					{{ form.username }}<br/>
+				</div>
+				</div>
+				<div class="control-group">
+				<div class="controls">
+					{% if form.email.errors %}<p class="error">{{ form.email.errors }}</p>{% endif %}
+					{{ form.email }}<br/>
+				</div>
+				</div>
+				<div class="control-group">
+				<div class="controls">
+					{% if form.position.errors %}<p class="error">{{ form.position.errors }}</p>{% endif %}
+					{{ form.position }}<br/>
+				</div>
+				</div>
+				<div class="control-group">
+				<div class="controls">
+					{% if form.password.errors %}<p class="error">{{ form.password.errors }}</p>{% endif %}
+					{{ form.password }}<br/>
+				</div>
+				</div>
+				<div class="control-group">
+				<div class="controls">
+					{% if form.cpassword.errors %}<p class="error">{{ form.cpassword.errors }}</p>{% endif %}
+					{{ form.cpassword }}<br/>
+				</div>
+				</div>
+				<div class="control-group" >
+				<div class="controls" align=left>
+					<input type="submit" class="big bg-color-greenLight" alt="Registration Form" value="Register Now" />
+					<br/><br/>
+				</div>
+				</div>
+			</form>
+		</div><!-- reg form -->
+		
+		<div class="span10" style="padding-left:6em; padding-top:0; padding-bottom:6em">
+			<h2 class="dashboard-headings">Why Signup?</h2>
+				<p>
+				"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+				do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+				Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+				nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+				in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+				nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+				sunt in culpa qui officia deserunt mollit anim id est laborum."
+				</p>
+				<br /><br />
+				<p>
+				"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+				do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+				Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+				nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+				in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+				nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+				sunt in culpa qui officia deserunt mollit anim id est laborum."
+				</p>
+		</div> <!-- reg content -->
+	</div> <!-- row-fluid -->
+	</div>
+
+</section>
+{% endblock %}

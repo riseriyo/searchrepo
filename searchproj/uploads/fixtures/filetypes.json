@@ -1,0 +1,47 @@
+[
+	{
+		"model":"uploads.Filetype",
+		"pk":10,
+		"fields":{"filetype":".blend"}
+	},
+	{
+		"model":"uploads.Filetype",
+		"pk":20,
+		"fields":{"filetype":".ma/.mb"}
+	},
+	{
+		"model":"uploads.Filetype",
+		"pk":30,
+		"fields":{"filetype":".cd4"}
+	},
+	{
+		"model":"uploads.Filetype",
+		"pk":40,
+		"fields":{"filetype":".max/.3ds"}
+	},
+	{
+		"model":"uploads.Filetype",
+		"pk":50,
+		"fields":{"filetype":".dae"}
+	},
+	{
+		"model":"uploads.Filetype",
+		"pk":60,
+		"fields":{"filetype":".x3d"}
+	},
+	{
+		"model":"uploads.Filetype",
+		"pk":70,
+		"fields":{"filetype":".ai"}
+	},
+	{
+		"model":"uploads.Filetype",
+		"pk":80,
+		"fields":{"filetype":".psd/.eps"}
+	},
+	{
+		"model":"uploads.Filetype",
+		"pk":90,
+		"fields":{"filetype":"Other file format"}
+	}
+]

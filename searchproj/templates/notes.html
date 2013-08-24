@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for note in notes %}
+	<h2 class="dashboard-headings"> {{ notes.title }}</h2>
+	<p>
+		{{ notes.body }}
+	</p>
+{% endfor %}
+{% endblock %}

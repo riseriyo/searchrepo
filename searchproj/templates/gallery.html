@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load thumbnail %}
+
+{% block content %}
+<div id="main-submits" class="submits-list span7">
+	<h2 class="dashboard-headings">Browse Media Files</h2>
+	<nav id="libraryNav">
+		 <div class="navbar" >
+			<div class="navbar-inner" style="background-color:3CA83C">
+				<ul class="nav" >
+					<li id='view'><a href="" class='dynamic'>Most Viewed</a></li>
+					<li id='faved'><a href="">Most Faved</a></li>
+					<li id='age'><a href="{% url 'browse_recent' %}">Most Recent</a></li>
+					<li id='staff'><a href="{% url 'browse_staffpicks' %}">Staff Picks</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div id="library-submits-wrapper">
+		{% if recent %}
+			{% if submissions %}
+				<ul id="library-submits">
+				{% for subItem in submissions %}
+					{% for revItem in subItem.revision_set.all reversed %} 
+						{% if forloop.first %}
+						<li class="library-submits-elements">
+							<a class="library-submits-links" href="{% url 'subinfo' subPk=subItem.pk revPk=revItem.pk %}" title="{{ subItem.title }}"><img class="library-submits-thumbnail" src="{{ revItem.vidpic|thumbnail_url:'home_feature' }}" alt="{{ subItem.title }}" /><div class="library-title-wrapper" data-title="{{ subItem.title }}"></div></a>
+							
+						</li>
+						{% endif %}
+					{% endfor %}
+				{% endfor %}
+				 </ul> 
+			{% else %}
+				<div class="span2">
+				<a href="" ><img src="" alt="No data" /> </a>
+				<br /><br />
+				</div>
+			{% endif %}
+		{% endif %}
+		{% if stafffaves %}
+			<!-- <h2>Staff Picks</h2> -->
+			{% if staffpicks %}
+				<ul id="library-submits">
+				{% for staffpick in staffpicks %}
+				{% for revItem in staffpick.revision_set.all reversed %} 
+					{% if forloop.first %}
+					<li class="library-submits-elements">
+						<a class="library-submits-links" href="{% url 'subinfo' subPk=staffpick.pk revPk=revItem.pk %}" title="{{ staffpick.title }}"><img class="library-submits-thumbnail" src="{{ revItem.vidpic|thumbnail_url:'home_feature' }}" alt="{{ staffpick.title }}" /><div class="library-title-wrapper" data-title="{{ staffpick.title }}"></div></a>
+						
+					</li>
+					{% endif %}
+				{% endfor %}
+				{% endfor %}
+				<!--  Username: {{ staffpick.user }}<br />
+				Submitted: {{ staffpick.created }}<br /><br />-->
+				</ul>
+			{% else %}
+				<div class='span1'>
+				<a href="" ><img src="" /> </a><br /><br />
+				Username: No data<br />
+				Submitted: No data<br /><br />
+				</div>
+			{% endif %}
+		{% endif %}
+	</div><!--  library-submits-wrapper -->
+</div><!--  span7 -->
+
+<div class="span5">
+	<div class='span5'>
+		<h2 class="dashboard-headings">Popular</h2>
+		<div>
+		<img src="#" />		<img src="#" />		<img src="#" /><br /><br />
+		<img src="#" />		<img src="#" />		<img src="#" /><br /><br />
+		
+		<a href="">View more</a>
+		<br /><br />
+		</div>
+	</div>
+	<div id="sidebar-tags" class='tag-list span5'>
+		<h2 class="dashboard-headings">Browse by tag</h2>
+		<div id="thetags-wrapper">
+		{% if submissions %}
+		<ul id="thetags">
+			{% for tag in taglist %}
+				{% if forloop.counter0 <= 9 %}
+					<li class="tag-element">
+					<span class="tag-wrapper"><a href="" >{{ tag }}</a></span>
+					</li> 
+				{% elif forloop.counter0 == 10 %}
+					<li class="tag-element">
+					<span class="tag-wrapper"><a href="" >{{ tag }}</a></span>
+					</li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+		{% endif %}
+		</div>
+	</div>
+</div><!--  span5 -->
+<script type="text/javascript">
+$(document).ready(function() {
+	//$('p.library-title-wrapper').each(function(){
+	//	$this = $(this);
+	//	var title = $this.data('title');
+	//	console.log(title);
+	//	if ( jQuery.trim(title).substring(0,27).split(" ").slice(0,-1).length == 0 ){
+	//		$this.text(title);
+	//	} else {
+	//		var ellipsistext = jQuery.trim(title).substring(0,27).split(" ").slice(0, -1).join(" ") + "...";
+	//		console.log(ellipsistext);
+	//		$this.text(ellipsistext);
+	//	}
+	//}); //end each
+	$('.library-title-wrapper').each(function(){
+		var $this = $(this);
+		var title = $this.data('title'); //$this.attr('title').val(); $this.data('title');
+		//var user = $this.data('user');
+		console.log(title);
+		console.log(title.length);
+		//$this.append(title);
+		if (title.length <= 30){
+			$this.append(title + "<br /><br />");
+			$this.trunk8({lines:2}).css("height","28px");
+		} else if (title.length >= 31 && title.length <= 61) {
+			$this.append(title);
+			$this.trunk8({lines:2}).css("height","28px");
+		} else if (title.length >= 62) {
+			$this.append(title);
+			$this.trunk8({lines:2});
+		}
+	}); //end each
+}); //end doc-ready
+</script>
+{% endblock %}

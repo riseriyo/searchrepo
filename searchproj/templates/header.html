@@ -1,0 +1,74 @@
+{% block header %}
+{% load staticfiles %}
+<div id="wrapper">
+	<header id="mainHeader">
+
+		<div class="grid">
+			<div class="row">
+				<div class="span7" >
+					<img id="bannerImg" src="{% static 'img/joshlion_512x196.png' %}" alt="lion_logo" />
+				</div>
+
+				<div class="span4 bg-color-blueLight" style="margin-right:0px; margin-left:20px; margin-bottom:0; padding:20px; padding-bottom:0; ">
+
+					<form method="get" action="/search" id="searchForm" class="form-search">
+						<div class="input-append">
+
+						    <input type="text" name="q" class="span3 input-medium search-query" id="search" tabindex="50" placeholder="Search">
+							<button class="btn" type="submit" value="search"><i class="icon-search"></i></button>
+						</div>
+						<!-- <input type="submit" name="search"> -->
+					</form>
+					
+					{% if user.is_authenticated %}
+					<div class="container span4">
+						<div class="row">
+						<div class="btn-group span4">
+							<a href="#" class="span2 btn dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown"><img {% if user.userpic %} src="{{ user.userpic }}"  {% else %} src="{% static 'img/avatar_user_27x27.png' %}" {% endif %} alt={{ user.username }} />     {{ user.username }}     <span class="caret"></span></a>
+								<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+									<li><a href="{% url 'dashboard' %}" tabindex="-1"><i class="icon-home"></i> {{ user.username }}'s Dashboard</a>
+									<li><a href="{% url 'upload' %}" tabindex="-1"><i class="icon-upload"></i> Upload</a></li>
+									<li><a href="{% url 'uploadsmanager' %}" tabindex="-1"><i class="icon-facetime-video"></i> Uploads Manager</a></li>
+									<li><a href="#" tabindex="-1"><i class="icon-cog"></i> Settings</a></li>
+									<li><a href="/logout/" tabindex="-1"><i class="icon-signout"></i> Logout</a></li>
+								</ul>
+						</div>
+						</div>
+					</div>
+					
+					{% else %}
+						<div align="center">
+							<a href="/login/" class="btn btn-medium btn-block"> Login </a> <!-- id="logInDialog"  -->
+							
+							<ul class="nav nav-pills">
+								<li><a href="{% url 'register' %}" class="">Sign Up</a></li>
+								<li><a href="{% url 'upload' %}" class="fg-color-darken">Upload</a></li>
+							</ul>
+						</div>
+					{% endif %}
+
+
+				</div> <!-- end span -->
+			</div> <!-- end row -->
+
+			<div class="row">
+				<div class="span12">
+					<nav id="mainNav">
+						 <div class="navbar" >
+							<div class="navbar-inner" style="background-color:3CA83C">
+								<ul class="nav" >
+									<li ><a href="{% url 'home' %}">Home</a></li>
+									<li ><a href="{% url 'gallery' %}">Gallery</a></li>									
+									<li ><a href="{% url 'about' %}">About</a></li>
+								</ul>
+							</div>
+						</div>
+					</nav>
+				</div>
+			</div>
+
+	</div> <!-- end div grid -->
+	</header>
+</div>
+
+{% endblock %} <!-- block header -->

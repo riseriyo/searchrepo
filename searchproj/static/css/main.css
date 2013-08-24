@@ -1,0 +1,564 @@
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+header#mainHeader
+{
+	text-align:left;
+	color:red;
+}
+
+.progress {
+	width:250px;
+}
+
+#pageContainer
+{
+	width:1000px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+h2
+{
+	padding-bottom:10px;
+	border-bottom:1px solid #ccc;
+}
+
+footer
+{
+	clear: both;
+	border-top: 1px solid #ccc;
+	text-align: center;
+	padding:1em;
+	height:5em;
+}
+
+a.anchtest:link
+{
+	color:rgb(102,102,102);
+	text-decoration:none
+}
+
+a.anchtest:active
+{
+	color:#0088cc;
+	text-decoration:none
+}
+
+a.anchtest:visited
+{
+	color:rgb(102,102,102);
+	text-decoration:none
+}
+
+a.anchtest:hover
+{
+	color:#78af4b; /* 0088cc */
+	text-decoration:none;
+}
+
+/* ===== layout for pages ==== */
+.action-anchors:hover
+{
+	text-decoration:underline !important;
+	color:#c63f85;
+}
+
+.smallfontstyle
+{
+	font-size: small;
+}
+
+/* ===== layout for Submission and Revision form pages ==== */
+.errorlist
+{
+	color: red;
+}
+
+label
+{
+	display:none;
+}
+
+
+#filetype-select
+{
+	display:none;
+}
+
+#iconfiletypes
+{
+	position:relative;
+	display:inline;
+}
+
+#iconfile
+{
+	position:relative;
+}
+
+.ui-progressbar {
+	position: relative;
+	display:none;
+}
+
+.progress-label {
+	position:absolute;
+	left: 50%;
+	top: 4px;
+	font-weight:bold;
+	text-shadow: 1px 1px 0 #fff;
+	display:none;
+}
+
+#filetype-error-msg-prompt
+{
+	display:none;
+}
+
+/* input type-file style button */
+.file-wrapper
+{
+	cursor:pointer;
+	display:inline-block;
+	overflow:hidden;
+	position:relative;
+}
+
+.file-wrapper input
+{
+	cursor: pointer;
+	font-size: 100px;
+	height: 100%;
+	filter: alpha(opacity=1);
+	-moz-opacity: 0.01;
+	opacity: 0.01;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.file-wrapper .browsebtn
+{
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	cursor: pointer;
+	color:#fff;
+	display: inline-block;
+	font-size: 11px;
+	font-weight: bold;
+	margin-right: 5px;
+	padding: 4px 18px;
+	text-transform: capitalize;
+	border-left: 1px solid #a5d7b7;
+	border-top: 1px solid #a5d7b7;
+	border-bottom: 1px solid #55856a;
+	border-right: 1px solid #55856a;
+	background: -webkit-linear-gradient(#a1e048, #6a942f);
+	background: -moz-linear-gradient(#a1e048, #6a942f);
+	background: -ms-linear-gradient(#a1e048, #6a942f);
+	background: -o-linear-gradient(#a1e048, #6a942f);
+	background: linear-gradient(#a1e048, #6a942f);
+}
+
+#id_sourcefile
+{
+	visibility:visible;
+}
+
+#progressbar 
+{
+	visibility:hidden;
+}
+
+#scene-msg-prompt #info-msg-prompt
+{
+	font-size: x-small;
+}
+
+#info-error-msg-prompt
+{
+	display:none;
+}
+
+#vidpic-msg-prompt
+{
+	visibility:hidden;
+}
+
+#thumbnail-upload
+{
+	visibility:hidden;
+}
+
+#id_vidpic
+{
+	visibility:hidden;
+}
+
+#browsethumbnail
+{
+	visibility:hidden;
+}
+
+#outer-bar-vidpic
+{
+	display:none
+}
+
+#vidanimation-msg-prompt
+{
+	visibility:hidden;
+}
+
+#video-upload
+{
+	visibility:hidden;
+}
+
+#id_vidanimation
+{
+	visibility:hidden;
+}
+
+#browsevid
+{
+	visibility:hidden;
+}
+#outer-bar-vidanimation
+{
+	display:none
+}
+
+
+/* text fields for submission form */
+#title
+{
+	visibility:hidden;
+	background-color:transparent;
+	position:absolute;
+	left:0;
+	top:0;
+	z-index:1;
+}
+#title:focus, #title:first-line
+{
+	background-color:white;
+}
+.placeholder 
+{
+	color:#aaa;
+	display:none;
+	font-size:small;
+	padding-top:7px;
+	padding-left:350px;
+	position:relative;
+	text-align:center;
+}
+
+#authors
+{
+	visibility:hidden;
+	background-color:transparent;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:1;
+}
+
+#authors:focus, #authors:first-line
+{
+	background-color:white;
+}
+
+#description
+{
+	visibility:hidden;
+}
+
+#pdb
+{
+	visibility:hidden;
+}
+
+#tags
+{
+	visibility:hidden;
+}
+
+#ancestors
+{
+	visibility:hidden;
+}
+
+#comments
+{
+	visibility:hidden;
+}
+
+#submissionInput 
+{
+	visibility:hidden;
+}
+
+/* =============== dashboard ========*/
+.dashboard-headings
+{
+	color: rgb(102,102,102);
+}
+
+/* =============== submission objects container on library template ========*/
+#library-submits-wrapper
+{
+	display: block;
+	
+}
+
+#tlibrary-submits-wrapper:hover a
+{
+	color: #0063dc;
+}
+
+#library-submits .library-submits-elements
+{
+	border-radius:0px;
+	border: 0px solid #e6e6e6;
+	word-wrap: break-word;
+}
+
+#library-submits .library-submits-elements, #library-submits li
+{
+	position: relative;
+	display: inline-block;
+	margin-left: 35px;
+	margin-right: 35px;
+	margin-bottom:10px;
+}
+
+
+#library-submits a
+{
+	color: #999;
+}
+
+.library-title-wrapper:hover 
+{
+	color: #c63f85;
+	text-decoration: underline !important;
+	font-weight: normal;
+}
+
+.library-title-wrapper
+{
+	font-size: small;
+	color: #0063dc;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width:150px;
+	line-height:14px;
+
+}
+
+.submits-title
+{
+	height:25px;
+	width:150px;
+}
+
+/* ============== submission_info template ======*/
+#downloads-section .filesdownload a
+{
+	float: right;
+	margin-top: 21px;
+	color: white;
+	text-decoration: none;
+	background-color: #5bb75b;
+	padding: 4px 6px 6px;
+	font-size: 14px;
+	border-radius: 3px 3px 3px 3px;
+	height: 20px;
+}
+
+/*================ Uploads Manager template ==========*/
+.uploads-user:hover
+{
+	color: #c63f85;
+	text-decoration: underline !important;
+	font-weight: normal;
+}
+
+/* ============== dashboard_master ellipsis wrapper ======*/
+
+.dashboard-title-wrapper
+{
+	font-size: small;
+	min-height:18px;
+}
+
+.dashboard-title-wrapper:hover
+{
+	color:#c63f85;
+	text-decoration: underline !important;
+}
+
+/* =============== submission objects container of side-columns ========*/
+#side-thesubmits-wrapper
+{
+	display: block;
+	
+}
+
+#side-thesubmits-wrapper:hover a
+{
+	color: #0063dc;
+}
+
+#side-thesubmits .side-submits-element
+{
+	border-radius:0px;
+	border: 0px solid #e6e6e6;
+	word-wrap: break-word;
+}
+
+#side-thesubmits .side-submits-element, #side-thesubmits li
+{
+	position: relative;
+	display: inline-block;
+	margin-bottom: 5px;
+	line-height: 0px;
+}
+
+#side-thesubmits .side-submits-element, #side-thesubmits li
+{
+	position: relative;
+	display: inline-block;
+	margin-bottom: 5px;
+	line-height: 0px;
+}
+
+.side-submits-element
+{
+	margin-left: -10px;
+}
+
+#side-thesubmits
+{
+	margin: 0 0 5px;
+}
+
+#side-thesubmits a
+{
+	color: #999;
+}
+
+a:visited
+{
+	text-decoration: none;
+	color: #0063dc;
+}
+
+a:link
+{
+	text-decoration: none;
+	color: #0063dc;
+}
+
+#side-thesubmits a:hover
+{
+	color: #fff;
+	background-color: #0063dc;
+}
+
+.add-title:hover 
+{
+	color: #c63f85;
+	text-decoration: underline !important;
+	font-weight: normal;
+}
+
+.add-title
+{
+
+}
+
+.sublinks
+{
+	padding:10px;
+}
+
+#feature-animation:hover
+{
+	color: #c63f85;
+	font-weight: bold;
+	text-decoration: underline !important;
+}
+
+.home-wrapper
+{
+	font-size: x-small;
+}
+
+
+/* =============== tag container =======================*/
+#thetags-wrapper
+{
+	display: block;
+	
+}
+
+#thetags-wrapper:hover a
+{
+	color: #0063dc;
+}
+
+#thetags .tag-element
+{
+	border-radius: 3px;
+	padding: 1px 4px;
+	border: 1px solid #e6e6e6;
+	word-wrap: break-word;
+}
+
+#thetags .tag-element, #thetags li
+{
+	position: relative;
+	display: inline-block;
+	margin-right: 3px;
+	margin-bottom: 3px;
+	min-height: 18px;
+	
+}
+
+#thetags
+{
+	margin: 0 0 10px;
+}
+
+#thetags a
+{
+	color: #999;
+}
+
+a:visited
+{
+	text-decoration: none;
+	color: #0063dc;
+}
+
+a:link
+{
+	text-decoration: none;
+	color: #0063dc;
+}
+
+#thetags a:hover
+{
+	color: #fff;
+	background-color: #0063dc;
+}
+
+/* ========= django-jquery-file-upload ================ */
+.preview img {
+    max-height: 50px;
+}

@@ -1,0 +1,79 @@
+{% extends "accounts/dashboard_base.html" %}
+{% load staticfiles %}
+{% load thumbnail %}
+
+{% comment %}
+Use to display user's dashboard containing
+a partial list of submissions, stats, 
+comments, and topics of interest
+{% endcomment %}
+
+{% block dashboard-master %}
+<!-- <div class="container"> -->
+	<div class="row">
+		<div class="span4 pull-left">
+			<h3 class="dashboard-headings">Uploads </h3>
+			{% for vid in vids %}
+				{% if forloop.counter < 4 %} 
+					{% for revItem in vid.revision_set.all  %}
+						{% if forloop.last %}
+							<a href="{% url 'revinfo' revPk=revItem.pk %}" title="{{ vid.title }}"><img src="{{ revItem.vidpic|thumbnail_url:'dashboard_vidpic' }}" alt='{{ vid.title }}' /></a><br />
+							<span class="smallfontstyle"><a class="dashboard-title-wrapper" href="{% url 'revinfo' revPk=revItem.pk %}">{{ vid.title }}</a></span>
+							<span class="smallfontstyle">{{ revItem.modified }}</span><br />
+						{% endif %}
+					{% endfor %}
+					
+					{% for revItem in vid.revision_set.all %}
+						{% if forloop.first %}
+						<!-- <span class="smallfontstyle">{{ revItem.modified }}</span><br /> -->
+						{% endif %}
+					{% endfor %}
+					<span class="smallfontstyle"># of Views</span><br /><br />
+				{% endif %}
+			{% endfor %}
+			<span><a class="action-anchors" href="{% url 'uploadsmanager' %}" title="view all submissions">View All</a></span>	
+		</div> <!-- span5 -->
+		
+		<div class="span5 pull-left">
+			<h3 class="dashboard-headings">Key Stats from last 30 days </h3>
+			<div class="section-label">Video Views</div>
+		</div> <!-- span5 -->
+	</div> <!-- end row1 -->
+	
+	<div class="row">
+		<div class="span4 pull-left">
+			<h3 class="dashboard-headings">Comments </h3>
+			<div class="section-label"></div>
+			<span><a href="">View All</a></span>
+		</div> <!-- span5 -->
+	
+		<div class="span5 pull-left">
+			<h3 class="dashboard-headings">Topics of Interest </h3>
+			<div class="section-label"></div>
+			<span><a href="">View All</a></span><br /><br />
+		</div>	<!-- span5 -->
+	
+	</div> <!-- end row2 -->
+<!-- </div> container -->
+<script type="text/javascript">
+$(document).ready(function() {
+	$('a.dashboard-title-wrapper').jTruncate({
+		length: 25,
+		minTrail: 0,
+		moreText: "[read more]",
+		lessText: "[read less]",
+		ellipsisText: "...",
+		moreAni: "fast",
+		lessAni: "fast"
+	});
+	$('a.dashboard-title-wrapper').each(function(){ 
+		$this = $(this);
+		if ( $this.children("span.truncate_ellipsis").length ){
+			//don't do anything
+		} else {
+			$this.append("<br />");
+		}
+	});
+}); //end doc-ready
+</script>
+{% endblock %}

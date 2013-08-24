@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% comment %}
+**registration/registration_incomplete.html**
+UserProfile doesn't exist or activation_key has expired.
+{% endcomment %}
+
+{% block content %}
+<section class="registration_complete_msg">
+	<section class="registration_email">
+	<h2>Error with UserProfile</h2>
+		<p>
+		Unfortunately, <br /><br />
+		
+		Your activation key expired, and we are unable to activate your account. Please contact the administrator.<br /><br /> 
+		
+		Thank you for your attention.<br /><br />
+		
+		<br /><br />
+		
+		</p>
+		<br /><br />
+	</section>
+</section>
+{% endblock %}

@@ -1,0 +1,33 @@
+ERROR:django.request:Internal Server Error: /accounts/confirm/b337a2eab9b0ff65245114384af54c2d54874005
+Traceback (most recent call last):
+  File "/Users/rise/.virtualenvs/searcheng/lib/python2.7/site-packages/django/core/handlers/base.py", line 92, in get_response
+    response = middleware_method(request)
+  File "/Users/rise/.virtualenvs/searcheng/lib/python2.7/site-packages/django/middleware/common.py", line 70, in process_request
+    urlresolvers.is_valid_path("%s/" % request.path_info, urlconf)):
+  File "/Users/rise/.virtualenvs/searcheng/lib/python2.7/site-packages/django/core/urlresolvers.py", line 551, in is_valid_path
+    resolve(path, urlconf)
+  File "/Users/rise/.virtualenvs/searcheng/lib/python2.7/site-packages/django/core/urlresolvers.py", line 440, in resolve
+    return get_resolver(urlconf).resolve(path)
+  File "/Users/rise/.virtualenvs/searcheng/lib/python2.7/site-packages/django/core/urlresolvers.py", line 321, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "/Users/rise/.virtualenvs/searcheng/lib/python2.7/site-packages/django/core/urlresolvers.py", line 223, in resolve
+    return ResolverMatch(self.callback, args, kwargs, self.name)
+  File "/Users/rise/.virtualenvs/searcheng/lib/python2.7/site-packages/django/core/urlresolvers.py", line 230, in callback
+    self._callback = get_callable(self._callback_str)
+  File "/Users/rise/.virtualenvs/searcheng/lib/python2.7/site-packages/django/utils/functional.py", line 29, in wrapper
+    result = func(*args)
+  File "/Users/rise/.virtualenvs/searcheng/lib/python2.7/site-packages/django/core/urlresolvers.py", line 97, in get_callable
+    mod = import_module(mod_name)
+  File "/Users/rise/.virtualenvs/searcheng/lib/python2.7/site-packages/django/utils/importlib.py", line 35, in import_module
+    __import__(name)
+  File "/Users/rise/Documents/workspace/searchrepo/searchproj/profiles/viewsregistration.py", line 24, in <module>
+    from .formsregistration import RegistrationForm
+  File "/Users/rise/Documents/workspace/searchrepo/searchproj/profiles/formsregistration.py", line 4, in <module>
+    logging.basicConfig(filename='log_formsregistration.log', level=logging.info)
+  File "/usr/local/Cellar/python/2.7.4/Frameworks/Python.framework/Versions/2.7/lib/python2.7/logging/__init__.py", line 1540, in basicConfig
+    root.setLevel(level)
+  File "/usr/local/Cellar/python/2.7.4/Frameworks/Python.framework/Versions/2.7/lib/python2.7/logging/__init__.py", line 1125, in setLevel
+    self.level = _checkLevel(level)
+  File "/usr/local/Cellar/python/2.7.4/Frameworks/Python.framework/Versions/2.7/lib/python2.7/logging/__init__.py", line 190, in _checkLevel
+    raise TypeError("Level not an integer or a valid string: %r" % level)
+TypeError: Level not an integer or a valid string: <function info at 0x10be8d320>

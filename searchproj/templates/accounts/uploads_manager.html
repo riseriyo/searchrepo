@@ -1,0 +1,76 @@
+{% extends "accounts/dashboard_base.html" %}
+{% load staticfiles %}
+{% load thumbnail %}
+
+{% comment %}
+**URL Design: profile/my_submissions/**
+Displays list of all submissions, each 
+with a revision history, that a
+user has uploaded to their account.
+{% endcomment %}
+
+{% block uploadsmanager %}
+<div class="row">
+	<h3 class="dashboard-headings">Uploads {{ vidCount }}</h3>
+	
+	{% if messages %}
+		<ul class="messages">
+			{% for message in messages %}
+			<li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+	
+	{% for vid in vids %}
+		<div class="span2.5">
+			{% for revItem in vid.revision_set.all %}
+				{% if forloop.last %}
+				<a href="{% url 'revinfo' revPk=revItem.pk %}" title="{{ vid.title }}"><img src="{{ revItem.vidpic|thumbnail_url:'manager_vidpic' }}" alt="{{ vid.title }}" /></a><br /><br />
+				{% endif %}
+			{% endfor %}
+		</div>
+		
+		<div class="span7">
+			{% for revItem in vid.revision_set.all reversed %}
+				{% if forloop.first %}
+					<span id="list_title"><a class="uploads-user" href="{% url 'revinfo' revPk=revItem.pk %}" title="{{ vid.title }}">{{ vid.title }}</a></span><br />
+				{% endif %}
+			{% endfor %}
+			{% for revItem in vid.revision_set.all reversed %}
+				{% if forloop.first %}
+				<span id="list_timestamp">Timestamp: {{ revItem.modified }}</span><br />
+				{% endif %}
+			{% endfor %}
+			<span id="list_filetype">Filetype: {{ vid.filetype }}</span><br />
+			<div class="wrapper"><div id="description_{{ vid.pk }}" style="float: none; position: static;" name="{{ vid.description }}">Description: {{ vid.description }}</div></div><br />
+			<!--  this is where the history of revisions will be -->
+			<button type="button" class="btn btn-small" data-toggle="collapse" data-target="#vidpk-{{ vid.pk }}">Revision History <span class="caret"></span></button>
+				<div id="vidpk-{{ vid.pk}}" class="collapse out">
+					<ul>
+						{% for revItem in vid.revision_set.all reversed %}
+							<li><a class="action-anchors" href="{% url 'revinfo' revPk=revItem.pk %}" title="{{ vid.title }}">revision: {{ revItem.modified }} </a></li>
+						{% endfor %}
+					</ul>
+				</div>
+				<br />
+			<span><a class="action-anchors" href="{% url 'revise' pkVid=vid.pk %}" title="submit revision">Edit/Revise</a></span>
+			<br /><br />
+		</div>
+	{% endfor %}
+</div> <!--  end row -->
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.wrapper').children('div').jTruncate({
+			length: 200,
+			minTrail: 0,
+			moreText: "[read more]",
+			lessText: "[read less]",
+			ellipsisText: " ...",
+			moreAni: "fast",
+			lessAni: "fast"
+		});
+	}); //end doc-ready
+</script>
+{% endblock %}

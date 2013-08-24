@@ -1,0 +1,110 @@
+{% extends "accounts/dashboard_base.html" %}
+{% load staticfiles %}
+{% load thumbnail %}
+
+{% comment %}
+**URL Design: profile/revise/(?P<pkVid>(\d+))/$**
+After successful submission of a 
+revision of a Submission object, display
+detailed information for the object and 
+and its history
+{% endcomment %}
+
+{% block revision-info %}
+<section class="rev-success-container">
+	<h4>{{ title }}</h4>
+	<input id="title_entry" style="display:none;"></input>
+	
+	{% if messages %}
+		<ul class="messages">
+			{% for message in messages %}
+			<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+
+	<section class=" rev-video-content">
+		<div class="rev-video">
+			<img src="{{ selected_revision.vidpic|thumbnail_url:'revsuccess_vidpic' }}" alt="{{ title }}" /><br /><br />
+			<a href="">new revision video player here </a>
+		</div>
+		<div class="rev-userprofile-img">
+		{%  if user.is_authenticated %}
+		<img {% if user.userpic %} src="{{ user.userpic }}"  {% else %} src="{% static 'img/avatar_user_50x50.png' %}" {% endif %} alt={{ user.username }} /> <span style="font-size: x-small">{{ username }}</span>
+		{% endif %}
+		<span id="separator"></span><span class="small" style="font-size: x-small">{{ vidCount }} videos</span><br /><br />
+		</div>
+		<div class="rev-userprofile-name">
+			
+			<button>Subscribe</button>
+			
+		</div>
+		<div class="rev-viewcount">
+		<strong>Filetype</strong>: {{ filetype }}<br />
+		<strong>Views</strong>:
+		
+		</div>
+		<div class="rev-video-title">
+			<!-- <h4>{{ title }}</h4> -->
+			
+			<strong>PDB(s)</strong>: {{ pdb }}<br />
+			<input id="pdb_entry" style="display:none;"></input>
+		</div>
+		<div class="vm-date-timestamp-info">
+		<strong>Uploaded on</strong> {{ timestamp }}
+		</div>
+		<div class="wrapper">
+			<div id="description_{{ selected_submission.pk }}" style="float: none; position: static;" name="{{ description }}"><strong>Description</strong>: {{ description }}</div> <br />
+		</div>
+		<section class="ac-container">
+		<strong>Comments</strong>: {{ comments }}
+		</section>
+		<br /><br />
+	</section>
+</section>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	//ellipsis for description
+	$('.wrapper').children('div').jTruncate({
+		length: 200,
+		minTrail: 0,
+		moreText: "[read more]",
+		lessText: "[read less]",
+		ellipsisText: "...",
+		moreAni: "fast",
+		lessAni: "fast"
+	});
+	
+	$('#title').on('click', function() {
+		$('#title').css('display', 'none');
+		$('#title_entry')
+			.val($('#title').text())
+			.css('display', '')
+			.focus();
+	});
+
+	$('#title_entry').on('blur', function() {
+		$('#title_entry').css('display', 'none');
+		$('#title')
+			.text($('#title_entry').val())
+			.css('display', '');
+	});
+	
+	$('#pdb').on('click', function() {
+		$('#pdb').css('display', 'none');
+		$('#pdb_entry')
+			.val($('#pdb').text())
+			.css('display', '')
+			.focus();
+	});
+
+	$('#pdb_entry').on('blur', function() {
+		$('#pdb_entry').css('display', 'none');
+		$('#pdb')
+			.text($('#pdb_entry').val())
+			.css('display', '');
+	});
+});//end ready
+</script>
+{% endblock %}

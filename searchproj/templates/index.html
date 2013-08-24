@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load thumbnail %}
+
+{% block content %}
+<div class="span7">
+	<h2 class="dashboard-headings">New Medium Art & Story Telling</h2>
+	<article>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</article>
+</div><!-- end span7 -->
+<div class="span5">
+	<div id='sidebar-submits' class='submits-list span5'>
+		<h2><a href="{% url 'gallery' %}" class='anchtest dashboard-headings'>Browse the Gallery</a></h2>
+		<div id="side-thesubmits-wrapper" class="span5">
+			{% if submissions %}
+				<!-- <ul id="side-thesubmits"> -->
+				{% for subItem in submissions %}
+					{% if forloop.counter0 < 6 %}
+					<div class="side-submits-elements span2.5">
+						{% for revItem in subItem.revision_set.all reversed %} 
+							{% if forloop.first %}
+							<!-- <li class="side-submits-element"> -->
+							<a class="sublinks" href="{% url 'subinfo' subPk=subItem.pk revPk=revItem.pk %}" title="{{ subItem.title }}"><img src="{{ revItem.vidpic|thumbnail_url:'manager_vidpic' }}" alt="{{ subItem.title }}" /></a>
+							<br />
+							<!-- </li> -->
+							{% endif %}
+						{% endfor %}
+					</div>
+					<!-- </ul> -->
+					<div class="side-submits-elements home-wrapper"  data-title="{{ subItem.title }}" data-user="{{ subItem.user }}">
+					{% for revItem in subItem.revision_set.all reversed %}
+						{% if forloop.first %}
+							<a class="title-sublinks" href="{% url 'subinfo' subPk=subItem.pk revPk=revItem.pk %}" title="{{ subItem.title }}"></a>
+						{% endif %}
+					{% endfor %}
+					</div>
+					{% endif %}
+				{% endfor %}
+			{% else %}
+				<div class="span1">
+				<a href="" ><img src="" alt="No data" /> </a>
+				<br /><br />
+				</div>
+			{% endif %}
+		</div>
+		<div class='span5'>
+		<a class="action-anchors" href="{% url 'gallery' %}">View more</a>
+		<br /><br />
+		</div>
+	</div>
+</div><!--  span5 -->
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% comment %}
+**registration/activation_complete.html**
+Used after successful account activation given as a link
+sent to user's provided email address. 
+This template has no context variables of its own, 
+and should simply inform the user that their account 
+is now active.
+{% endcomment %}
+
+{% block content %}
+<section class="activation_complete_msg">
+	<h3 class="dashboard-headings">Your account is active!</h3>
+		<p>
+		Now, all you have to do is login into your account <a href="/login/">right here</a>.<br /><br />
+		
+		Good times. - JDHoaglund <br /><br />
+		
+		</p>
+		<br /><br />
+</section>
+{% endblock %}

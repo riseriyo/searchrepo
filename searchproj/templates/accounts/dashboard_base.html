@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<h2 class="dashboard-headings span12"><img {% if user.userpic %} src="{{ user.userpic }}"  {% else %} src="{% static 'img/avatar_user_50x50.png' %}" {% endif %} alt={{ user.username }} /> {{ user.username }}'s Dashboard</h2>
+{% endif %}	
+	<div class="span3 pull-left" >
+	<ul class="nav nav-pills nav-stacked">
+		<li><a href="{% url 'dashboard' %}"><i class="icon-home"></i> My Dashboard</a></li>
+		<li><a href="{% url 'upload' %}"><i class="icon-upload"></i> Upload</a></li>
+		<li><a href="{% url 'uploadsmanager' %}"><i class="icon-facetime-video"></i> Uploads Manager</a></li>
+		<li><a href=""><i class="icon-cog"></i> Settings</a></li>
+		<li><a href="">Topics of Interest</a></li>
+	</ul>
+	</div> <!-- span2 -->
+	
+	<div class="span9"> 
+		{% block uploadsmanager %}
+		{% endblock %}
+		
+		{% block dashboard-master %}
+		{% endblock %}
+		
+		{% block submission-form %}
+		{% endblock %}
+		
+		{% block revision-form %}
+		{% endblock %}
+		
+		{% block revision-success %}
+		{% endblock %}
+		
+		{% block revision-info %}
+		{% endblock %}
+	</div>  <!-- info content -->
+
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %} 
+
+{% comment %}
+**registration/login.html**
+Customized login with checks for required fields, 
+unique username, hidden password input and match 
+{% endcomment %}
+
+{% block content %}
+<div class="login">
+	<h1 class="dashboard-headings">Log in</h1>
+	<div class="container-fluid" >
+		<div class="row-fluid">
+			<div class="span2" style="padding-top:2em">
+			<form action="" id="login-form" method="post">
+			{% csrf_token %}
+			{% if form.errors %}<p>Please correct the following fields:</p>{% endif %}
+				<div class="control-group">
+				<div class="controls">
+					{% if form.username.errors %}<p class="error">{{ form.username.errors }}</p>{% endif %}
+					{{ form.username }}<br />
+				</div>
+				</div>
+				<div class="control-group">
+				<div class="controls">
+					{% if form.password.errors %}<p class="error">{{ form.password.errors }}</p>{% endif %}
+					<span class="help-block"><a href="{% url 'register' %}" style="font-size:small">Forget Password?</a>
+					{{ form.password }}</span>
+					
+				</div>
+				</div>
+				
+				<div class="control-group">
+				<div class="controls">
+					<input type="submit" class="big" alt="Login Form" tabindex="3" value="{% trans 'Log In' %}" /><br /><br /><br />
+					<span class="help-block"><a href="{% url 'register' %}" style="font-size:small">Need to Register?</a></span>
+				<br/><br/>
+				</div></div>
+			</form>
+			</div> <!-- span2 -->
+		
+			<div class="span10" style="padding-left:6em; padding-top:0; padding-bottom:6em">
+				<h2 class="dashboard-headings">Testing Search Engine</h2>
+					<p>
+					"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+					do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+					Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+					nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+					in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+					nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+					sunt in culpa qui officia deserunt mollit anim id est laborum."
+					</p>
+					<br /><br />
+					<p>
+					"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+					do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+					Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+					nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+					in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+					nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+					sunt in culpa qui officia deserunt mollit anim id est laborum."
+					</p>
+			</div> <!-- reg content -->
+		</div> <!-- row-fluid -->
+	</div><!--  container fluid -->
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% comment %}
+**registration/registration_complete.html**
+Used after successful completion of the registration form. 
+This template has no context variables of its own, and should 
+simply inform the user that an email containing account-activation 
+information has been sent.
+
+{% endcomment %}
+
+{% block content %}
+<section class="registration_complete_msg">
+	<section class="registration_email">
+	<h2>Just one more step...</h2>
+		<p>
+		Hey there, <br /><br />
+		
+		I've sent you an email with an activation link for you to click on.<br /><br /> 
+		
+		Thanks!<br /><br />
+		
+		Cheers. - Rise<br /><br />
+		
+		</p>
+		<br /><br />
+	</section>
+</section>
+{% endblock %}

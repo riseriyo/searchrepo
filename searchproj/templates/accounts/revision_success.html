@@ -1,0 +1,78 @@
+{% extends "accounts/dashboard_base.html" %}
+{% load thumbnail %}
+
+{% comment %}
+**URL Design: profile/revise/(?P<pkVid>(\d+))/$**
+After successful submission of a 
+revision of a Submission object, display
+detailed information for the object and 
+and its history
+{% endcomment %}
+
+{% block revision-success %}
+<section class="rev-success-container">
+	<h2>Updated Details</h2>
+	
+	{% if messages %}
+		<ul class="messages">
+			{% for message in messages %}
+			<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+
+	<section class=" rev-video-content">
+		<div class="rev-video">
+			<img src="{{ new_revision.vidpic|thumbnail_url:'revsuccess_vidpic' }}" alt="{{ title }}" /><br /><br />
+			<a href="" >new revision video player here </a>
+		</div>
+		<div class="rev-video-title">
+			<<h2>Title: <span id="title">{{ title }}</span></h2> <br />
+			<input id="title_entry" style="display:none;"></input>
+			<input id="pdb_entry" style="display:none;"></input>
+		</div>
+		<div class="rev-userprofile-img">
+		UserProfile Image here<br />
+		</div>
+		<div class="rev-userprofile-name">
+			Username: {{ username }} <span class="small">{{ vidCount }} videos</span><br /><br />
+			<button>Subscribe</button>
+			
+		</div>
+		<div class="rev-viewcount">
+		Number of View
+		
+		</div>
+		<div class="vm-date-timestamp-info">
+		Uploaded on {{ latestRev }}
+		</div>
+		<div class="vm-video-info">
+			Description: {{ description }} <br />
+		</div>
+		<section class="ac-container">
+		Comments: {{ comments }}
+		</section>
+		<br /><br />
+	</section>
+</section>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#title').on('click', function() {
+		$('#title').css('display', 'none');
+		$('#title_entry')
+			.val($('#title').text())
+			.css('display', '')
+			.focus();
+	});
+
+	$('#title_entry').on('blur', function() {
+		$('#title_entry').css('display', 'none');
+		$('#title')
+			.text($('#title_entry').val())
+			.css('display', '');
+	});
+	
+});//end ready
+</script>
+{% endblock %}
