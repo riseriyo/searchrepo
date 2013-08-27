@@ -12,9 +12,9 @@
 				<div class="span4 bg-color-blueLight" style="margin-right:0px; margin-left:20px; margin-bottom:0; padding:20px; padding-bottom:0; ">
 
 					<form method="get" action="/search" id="searchForm" class="form-search">
-						<div class="input-append">
 
-						    <input type="text" name="q" class="span3 input-medium search-query" id="search" tabindex="50" placeholder="Search">
+						<div class="input-append">
+						    <input id="search" type="text" name="q" class="span3 input-medium search-query"  tabindex="50" placeholder="Search">
 							<button class="btn" type="submit" value="search"><i class="icon-search"></i></button>
 						</div>
 						<!-- <input type="submit" name="search"> -->
@@ -70,5 +70,24 @@
 	</div> <!-- end div grid -->
 	</header>
 </div>
+<script type="text/javascript">
+//$function(){
+//	$('#search').keyup(function(){
+//		$.ajax({
+//			type:"POST",
+//			url:"/profiles/search/",
+//			data:{
+//				'q':$('#search').val(),
+//				'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken').val()
+//			},
+//			datatype:'html'
+//		}); 
+//	});
+});
 
+//function searchSuccess(data,textStatus,jqXHR)
+//{
+//	$('#search-results').html(data);
+//}
+</script>
 {% endblock %} <!-- block header -->

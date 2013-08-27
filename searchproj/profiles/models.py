@@ -41,7 +41,7 @@ class UserProfile(TimeStampedModel):
 	website				= models.URLField(null=True, blank=True)
 	
 	# relation fields
-	position 			= models.ForeignKey(Position)
+	position 			= models.ForeignKey('Position', related_name='job')
 	
 	# used in admin interface, shell, etc.; self.id value autocreated by django
 	def __unicode__(self):

@@ -8,6 +8,9 @@ from django.contrib.auth.models import User
 # 3rd party app imports
 from model_utils.models import TimeStampedModel
 
+# author's
+from profiles.models import UserProfile
+
 class Note(TimeStampedModel):
 	user		= models.ForeignKey('profiles.UserProfile', related_name='author') # a submission remembers who submitted it
 	pub_date 	= models.DateTimeField()

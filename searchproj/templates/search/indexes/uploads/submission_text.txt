@@ -1,5 +1,5 @@
 {{ object.title }}
-{{ object.user.get_full_name }}
+{{ object.user }}
 {{ object.filetype }}
 {{ object.tags }}
 {{ object.description }}

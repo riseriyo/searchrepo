@@ -1,22 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        {% if query %}
-            <h3>Results</h3>
-            <p>Showing results for: &quot;{{ query }}&quot; </p>
-
-            {% for result in page.object_list %}
-                    Result Object: {{ result }}<br />
-                    Position: {{ result.object.position }}<br />
-                    Filetype: {{ result.filetype }}<br />
-                    Username: {{ result.object.user }}<br />
-                    State: {{ result.object.state }}<br />
-                    Zipcode: {{ result.object.zipcode }}<br /><br />
-            {% empty %}
-                <p>No results found for {{ query }}.</p>
-            {% endfor %}
-
-        {% else %}
-            {# Show some example queries to run, maybe query syntax, something else? #}
-        {% endif %}
+    {% if query %}
+        <h3>Results</h3>
+        <p>Showing results for: &quot;{{ query }}&quot; </p>
+        <li>
+        {% for result in page.object_list %}
+                Result Object: {{ result }}<br />
+                Position: {{ result.object.position }}<br />
+                Filetype: {{ result.filetype }}<br />
+                Username: {{ result.object.user }}<br />
+                State: {{ result.object.state }}<br />
+                Zipcode: {{ result.object.zipcode }}<br /><br />
+        {% empty %}
+            <p>No results found for {{ query }}.</p>
+        {% endfor %}
+        </li>
+    {% else %}
+        {# Show some example queries to run, maybe query syntax, something else? #}
+    {% endif %}
 {% endblock %}

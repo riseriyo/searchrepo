@@ -1,6 +1,7 @@
 from django import forms
 from haystack.forms import SearchForm
 
+
 class ProfilesSearchForm(forms.Form):
 	q = forms.CharField(required=False)
 
@@ -24,7 +25,7 @@ class ProfilesHaystackForm(SearchForm):
 
 		if query:
 			print"inside 3rd if"
-			sqs = sqs.autocomplete(username=query)
+			sqs = sqs.autocomplete(content_auto=query)
 			print sqs
 
 		if self.load_all:

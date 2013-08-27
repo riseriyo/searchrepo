@@ -15,11 +15,13 @@ from .models import Note
 class NoteIndex(indexes.SearchIndex, indexes.Indexable):
 	'''haystack's searchindex object handles data flow into elasticsearch'''
 	
-	text 		= indexes.EdgeNgramField(document=True, use_template=True)
-	user		= indexes.CharField(model_attr='author')
-	pub_date 	= indexes.DateTimeField(model_attr='pub_date')
-	title		= indexes.CharField(model_attr='title')
-	body		= indexes.CharField(model_attr='body')
+	text 				= indexes.CharField(document=True, use_template=True)
+	author 				= indexes.CharField(model_attr='author')
+	pub_date 			= indexes.DateTimeField(model_attr='pub_date')
+	title				= indexes.CharField(model_attr='title')
+	body				= indexes.CharField(model_attr='body')
+
+	#content_auto		= indexes.EdgeNgramField(model_attr='author')
 
 	# clean data
 	def prepare_author(self, obj):
@@ -37,6 +39,7 @@ class NoteIndex(indexes.SearchIndex, indexes.Indexable):
 	def index_queryset(self, using=None):
 		"""Used when the entire index for model is updated."""
 		return self.get_model().objects.filter(created__lte=datetime.datetime.utcnow().replace(tzinfo=utc))
+		#return self.get_model().objects.all()
 
 	def get_model(self):
 		return Note
