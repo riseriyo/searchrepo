@@ -42,8 +42,8 @@ print "project_root = %s" %PROJECT_ROOT
 ####################### DATABASE CONFIGURATION
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'jdh_db',                             # Or path to database file if using sqlite3.
+        'ENGINE': get_env_variable('SECRET_DATABASE'), # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': get_env_variable('SECRET_DATABASE_NAME'),                            # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
@@ -75,18 +75,6 @@ HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 ACCOUNT_ACTIVATION_DAYS = 2
 
 ########################## END REGISTRATION CONFIGURATION
-
-##################### EMAIL CONFIGURATION
-# Settings for the mail server that is listening on the MFB VM: 
-# in terminal enter: python -m smtpd -n -c DebuggingServer localhost:1025
-EMAIL_USE_TLS = True
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = "molecularflipbook@gmail.com"
-EMAIL_HOST_PASSWORD = "Mfbteam1"
-EMAIL_PORT = 587
-DEFAULT_FROM_EMAIL = 'molecularflipbook@gmail.com'
-###################### END EMAIL CONFIGURATION
-
 
 ###################### GENERAL CONFIGURATION
 # provide our get_profile()

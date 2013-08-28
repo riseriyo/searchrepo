@@ -38,26 +38,26 @@ SECRET_KEY = get_env_variable('SECRET_KEY_SEARCHENG')
 
 ###################### EMAIL CONFIGURATION
 if LOCAL:
-        # No access to SMTP server, then use the following and
-        # in terminal enter: python -m smtpd -n -c DebuggingServer localhost:1025
-        #EMAIL_USE_TLS = False
-        #EMAIL_HOST = 'localhost'
-        #EMAIL_HOST_USER = ''
-        #EMAIL_HOST_PASSWORD = ''
-        #EMAIL_PORT = 1025
-        #DEFAULT_FROM_EMAIL = 'testing@example.com'
+    # No access to SMTP server, then use the following and
+    # in terminal enter: python -m smtpd -n -c DebuggingServer localhost:1025
+    #EMAIL_USE_TLS = False
+    #EMAIL_HOST = 'localhost'
+    #EMAIL_HOST_USER = ''
+    #EMAIL_HOST_PASSWORD = ''
+    #EMAIL_PORT = 1025
+    #DEFAULT_FROM_EMAIL = 'testing@example.com'
 
 
-        # Email settings for sending account activation mail messages
-        # Configured mail server use the following; otherwise, add
-        # Gmail's SMTP server setting: smtp.gmail.com
-        # ask me for these settings...
-        EMAIL_USE_TLS = True
-        EMAIL_HOST = "smtp.gmail.com"
-        EMAIL_HOST_USER = "molecularflipbook@gmail.com"
-        EMAIL_HOST_PASSWORD = "Mfbteam1"
-        EMAIL_PORT = 587
-        DEFAULT_FROM_EMAIL = 'molecularflipbook@gmail.com'
+    # Email settings for sending account activation mail messages
+    # Configured mail server use the following; otherwise, add
+    # Gmail's SMTP server setting: smtp.gmail.com
+    # ask me for these settings...
+    EMAIL_USE_TLS = True
+    EMAIL_HOST = "smtp.gmail.com"
+    EMAIL_HOST_USER = get_env_variable('SECRET_EMAIL_ACCOUNT')
+    EMAIL_HOST_PASSWORD = get_env_variable('SECRET_EMAIL_PW') 
+    EMAIL_PORT = 587
+    DEFAULT_FROM_EMAIL = get_env_variable('SECRET_EMAIL_ACCOUNT')
 ###################### END EMAIL CONFIGURATION
 
 ################### DEBUG CONFIGURATION 
