@@ -21,7 +21,7 @@ def autocompleteSearch(request):
 	"""create a SQS and set the content_auto to what is inside the POST array"""
 
 	print"inside autocompleteSearch"
-	# return haystack objects
+	# creates haystack objects
 	sqs = SearchQuerySet().autocomplete(content_auto=request.GET.get('q',''))
 	
 
