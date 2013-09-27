@@ -1,4 +1,3 @@
 {{ object.title }}
-{{ object.user }}
 {{ object.body }}
 {{ object.pub_date }}

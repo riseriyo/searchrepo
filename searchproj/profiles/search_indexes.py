@@ -31,12 +31,13 @@ class UserProfileIndex(indexes.SearchIndex, indexes.Indexable):
 
 	text 			= indexes.CharField(document=True, use_template=True)
 	position 		= indexes.CharField(model_attr='position')		
-	state			= indexes.CharField(model_attr='state')
+	city			= indexes.CharField(model_attr='city')
 	zipcode			= indexes.CharField(model_attr='zipcode',faceted=True)
 
 	# content for autocomplete field for autcomplete purposes.
 	#username 			= indexes.CharField(model_attr='user')
-	content_auto 	= indexes.EdgeNgramField(model_attr="user")
+	user_auto 	= indexes.EdgeNgramField(model_attr="user")
+	state_auto	= indexes.EdgeNgramField(model_attr="state")
 
 	# clean data
 	#def prepare_user(self, obj):

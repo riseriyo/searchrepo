@@ -3,19 +3,47 @@
 {% block content %}
     {% if query %}
         <h3>Results</h3>
-        <p>Showing results for: &quot;{{ query }}&quot; </p>
-        <li>
+        <p><strong>Showing results for:</strong> &quot;{{ query }}&quot; </p>
+        <ul>
         {% for result in page.object_list %}
-                Result Object: {{ result }}<br />
-                Position: {{ result.object.position }}<br />
-                Filetype: {{ result.filetype }}<br />
-                Username: {{ result.object.user }}<br />
-                State: {{ result.object.state }}<br />
-                Zipcode: {{ result.object.zipcode }}<br /><br />
+                <li>
+                <strong>RESULT</strong>: {{ result.highlighted }}<br />
+                <strong>Result score: {{ result.score }}</strong><br />
+                <strong>Username:</strong> <a href="#" > {{ result.object.user }}</a><br />
+                <strong>Result pk</strong>: {{ result.pk }}<br />
+                <strong>State</strong>: {{ result.object.state }}<br />
+                <strong>Zipcode</strong>: {{ result.object.zipcode }}<br /><br />
+                <strong>Position</strong>: {{ result.object.position }}<br />
+                <strong>Filetype</strong>: {{ result.object.filetype }}<br />
+                <strong>Title</strong>: {{ result.object.title }}<br />
+
+                TESTING ATTRIBUTES BELOW:<br /> 
+                ---------------------------------------------<br />
+                Result content_type: {{ result.content_type }}<br />
+                Result get_additional_fields: {{ result.get_additional_fields }}<br >
+                Resulst get_stored_fields: {{ result.get_stored_fields }}<br />
+                Result app_label: {{ result.app_label }}<br />
+                Result model_name: {{ result.model_name }}<br />
+                Result user_auto: {{ result.user_auto }}<br />
+                Result state_auto: {{ result.state_auto }}<br />
+                Result title_auto: {{ result.title_auto }}<br />
+                Result tags_auto: {{ result.tags_auto }}<br />
+                Result member_auto: {{ result.member_auto }}<br />
+                Result verbose_name: {{ result.verbose_name }}<br />
+                Result verbose_name_plural: {{ result.verbose_name_plural }}<br />
+                Result search_index: {{ result.search_index }}<br />
+                ---------------------------------------------<br />
+
+                {% if result.model_name == "userprofile" %}
+                    <strong>layout for userprofile's submissions</strong><br />
+                {% elif result.model_name  == "note" %}
+                    <strong>layout for notes body</strong><br /><br />
+                {% endif %}
+                </li>
         {% empty %}
             <p>No results found for {{ query }}.</p>
         {% endfor %}
-        </li>
+        </ul>
     {% else %}
         {# Show some example queries to run, maybe query syntax, something else? #}
     {% endif %}

@@ -22,7 +22,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
             ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='author', to=orm['profiles.UserProfile'])),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='member', to=orm['profiles.UserProfile'])),
             ('title', self.gf('django.db.models.fields.CharField')(max_length=250)),
             ('filetype', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['uploads.Filetype'], null=True, blank=True)),
             ('tags', self.gf('django.db.models.fields.CharField')(max_length=250, null=True)),
@@ -113,7 +113,7 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'key_expires': ('django.db.models.fields.DateTimeField', [], {'null': 'True'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
-            'position': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['profiles.Position']"}),
+            'position': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'job'", 'to': u"orm['profiles.Position']"}),
             'state': ('django.db.models.fields.CharField', [], {'max_length': '2', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'}),
             'userpic': ('django.db.models.fields.files.ImageField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'}),
@@ -149,7 +149,7 @@ class Migration(SchemaMigration):
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
             'tags': ('django.db.models.fields.CharField', [], {'max_length': '250', 'null': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'author'", 'to': u"orm['profiles.UserProfile']"}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'member'", 'to': u"orm['profiles.UserProfile']"}),
             'vidfeature': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'vidstaffpick': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
         }

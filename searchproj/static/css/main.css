@@ -7,6 +7,11 @@ header#mainHeader
 	color:red;
 }
 
+/* ================== Autocomplete header template ========================*/
+.ui-autocomplete-loading{
+	background:white url('images/ui-anim_basic_16x16.gif') right center no-repeat;
+}
+
 .progress {
 	width:250px;
 }

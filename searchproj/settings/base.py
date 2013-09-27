@@ -49,6 +49,7 @@ DATABASES = {
         'PASSWORD': '',
         'HOST': 'localhost',             # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '',                      # Set to empty string for default.
+        'OPTIONS': {'autocommit': True,},
     }
 }
 ####################### END DATABASE CONFIGURATION 
@@ -62,6 +63,12 @@ HAYSTACK_CONNECTIONS = {
         'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
         'URL': 'http://127.0.0.1:9200/',
         'INDEX_NAME': 'haystack',
+    },
+
+    'autocomplete': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'hs_autocomplete',
     },
 }
 

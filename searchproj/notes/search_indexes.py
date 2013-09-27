@@ -16,16 +16,18 @@ class NoteIndex(indexes.SearchIndex, indexes.Indexable):
 	'''haystack's searchindex object handles data flow into elasticsearch'''
 	
 	text 				= indexes.CharField(document=True, use_template=True)
-	author 				= indexes.CharField(model_attr='author')
+	user 				= indexes.CharField(model_attr='user')
 	pub_date 			= indexes.DateTimeField(model_attr='pub_date')
-	title				= indexes.CharField(model_attr='title')
+	#title				= indexes.CharField(model_attr='title')
 	body				= indexes.CharField(model_attr='body')
 
 	#content_auto		= indexes.EdgeNgramField(model_attr='author')
+	title_auto 	= indexes.EdgeNgramField(model_attr="title")
+	#body_auto	= indexes.EdgeNgramField(model_attr="body")
 
 	# clean data
 	def prepare_author(self, obj):
-		return obj.author.name or 'NoteIndex: Author available'
+		return obj.user.name or 'NoteIndex: Notetaker available'
 
 	def prepare_pub_date(self, obj):
 		return obj.pub_date or 'NoteIndex: pub_date Not available'

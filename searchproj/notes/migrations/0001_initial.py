@@ -13,7 +13,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
             ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('author', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='author', to=orm['profiles.UserProfile'])),
             ('pub_date', self.gf('django.db.models.fields.DateTimeField')()),
             ('title', self.gf('django.db.models.fields.CharField')(max_length=200)),
             ('body', self.gf('django.db.models.fields.TextField')()),
@@ -65,13 +65,37 @@ class Migration(SchemaMigration):
         },
         u'notes.note': {
             'Meta': {'object_name': 'Note'},
-            'author': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"}),
             'body': ('django.db.models.fields.TextField', [], {}),
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
             'pub_date': ('django.db.models.fields.DateTimeField', [], {}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '200'})
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'author'", 'to': u"orm['profiles.UserProfile']"})
+        },
+        u'profiles.position': {
+            'Meta': {'object_name': 'Position'},
+            'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
+            'position': ('django.db.models.fields.CharField', [], {'max_length': '30'})
+        },
+        u'profiles.userprofile': {
+            'Meta': {'object_name': 'UserProfile'},
+            'activation_key': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
+            'address1': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
+            'address2': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
+            'city': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'key_expires': ('django.db.models.fields.DateTimeField', [], {'null': 'True'}),
+            'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
+            'position': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'job'", 'to': u"orm['profiles.Position']"}),
+            'state': ('django.db.models.fields.CharField', [], {'max_length': '2', 'blank': 'True'}),
+            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'}),
+            'userpic': ('django.db.models.fields.files.ImageField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'}),
+            'website': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'zipcode': ('django.db.models.fields.CharField', [], {'max_length': '40', 'blank': 'True'})
         }
     }
 

@@ -11,13 +11,13 @@
 
 				<div class="span4 bg-color-blueLight" style="margin-right:0px; margin-left:20px; margin-bottom:0; padding:20px; padding-bottom:0; ">
 
-					<form method="get" action="/search" id="searchForm" class="form-search">
+					<form method="get" action="{% url 'acsearch' %}" id="searchForm" class="form-search">
 
 						<div class="input-append">
-						    <input id="search" type="text" name="q" class="span3 input-medium search-query"  tabindex="50" placeholder="Search">
+						    <input id="search" type="text" name="q" class="span3 input-medium ui-autocomplete-input"  tabindex="50" placeholder="Search" autocomplete="off">
 							<button class="btn" type="submit" value="search"><i class="icon-search"></i></button>
 						</div>
-						<!-- <input type="submit" name="search"> -->
+						<ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all" id="ui-id-1" tabindex="0" style="display: none;"></ul>
 					</form>
 					
 					{% if user.is_authenticated %}
@@ -71,23 +71,59 @@
 	</header>
 </div>
 <script type="text/javascript">
-//$function(){
-//	$('#search').keyup(function(){
-//		$.ajax({
-//			type:"POST",
-//			url:"/profiles/search/",
-//			data:{
-//				'q':$('#search').val(),
-//				'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken').val()
-//			},
-//			datatype:'html'
-//		}); 
-//	});
-});
+	$(function() {
+    function log( message ) {
+      $( "<div>" ).text( message ).prependTo( "#log" );
+      $( "#log" ).scrollTop( 0 );
+    }
+ 
+    $( "#search" ).autocomplete({
+      source: function( request, response ) {
+        $.ajax({
+          //url: "http://ws.geonames.org/searchJSON",
+          //type:"POST",
+          url: "{% url 'acsearch' %}",
+          //headers: {'X_REQUESTED_WITH': 'XMLHttpRequest'},
+          dataType: "json",
+          data: {
+            featureClass: "P",
+            style: "full",
+            maxRows: 12,
+            q: request.term,
+          },
 
-//function searchSuccess(data,textStatus,jqXHR)
-//{
-//	$('#search-results').html(data);
-//}
+          success: function( data ) {
+            //response( $.map( data.geonames, function( item ) {
+            if (data.results.length === 0){
+              response(function(){alert("no results")});
+            }
+            else {
+              response( $.map( data.results, function(item){
+        	    return {
+                  //label: item.name + (item.adminName1 ? ", " + item.adminName1 : "") + ", " + item.countryName,
+                  //label: item.name
+                  label: item,
+                  value: item,
+                }
+              })); //end response             	
+        	} //end else
+          } //end success
+        }); //end .ajax fn
+      },
+      minLength: 2,
+      select: function( event, ui ) {
+      	url
+        log( ui.item ?
+          "Selected: " + ui.item.label :
+          "Nothing selected, input was " + this.value);
+      },
+      open: function() {
+        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+      },
+      close: function() {
+        $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+      }
+    }); //end autocomplete fn
+  }); //end main fn
 </script>
 {% endblock %} <!-- block header -->

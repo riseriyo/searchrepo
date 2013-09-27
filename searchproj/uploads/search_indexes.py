@@ -36,8 +36,8 @@ class SubmissionIndex(indexes.SearchIndex, indexes.Indexable):
 	description			= indexes.CharField(model_attr='description')
 
 	# content for autocomplete field for autcomplete purposes.
-	content_auto		= indexes.EdgeNgramField(model_attr='member')
-	content_auto		= indexes.EdgeNgramField(model_attr="tags")
+	user_auto		= indexes.EdgeNgramField(model_attr='member')
+	tags_auto		= indexes.EdgeNgramField(model_attr="tags")
 
 	# clean data
 	#def prepare_user(self, obj):

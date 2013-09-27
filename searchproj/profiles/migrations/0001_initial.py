@@ -32,7 +32,7 @@ class Migration(SchemaMigration):
             ('state', self.gf('django.db.models.fields.CharField')(max_length=2, blank=True)),
             ('zipcode', self.gf('django.db.models.fields.CharField')(max_length=40, blank=True)),
             ('website', self.gf('django.db.models.fields.URLField')(max_length=200, null=True, blank=True)),
-            ('position', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['profiles.Position'])),
+            ('position', self.gf('django.db.models.fields.related.ForeignKey')(related_name='job', to=orm['profiles.Position'])),
         ))
         db.send_create_signal(u'profiles', ['UserProfile'])
 
@@ -99,7 +99,7 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'key_expires': ('django.db.models.fields.DateTimeField', [], {'null': 'True'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
-            'position': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['profiles.Position']"}),
+            'position': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'job'", 'to': u"orm['profiles.Position']"}),
             'state': ('django.db.models.fields.CharField', [], {'max_length': '2', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'}),
             'userpic': ('django.db.models.fields.files.ImageField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'}),
