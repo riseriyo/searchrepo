@@ -52,6 +52,7 @@ urlpatterns = patterns('',
 
                 # search in the default URLconf for Haystack
                 url(r'^search/', include('profiles.urls')),
+                #url(r'^search/', include('uploads.urls')),
                 url(r'^search/', include('haystack.urls')),
 
 

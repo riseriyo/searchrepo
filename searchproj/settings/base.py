@@ -74,9 +74,8 @@ HAYSTACK_CONNECTIONS = {
 
 # enable signal processor that updates the index with additions/deletions
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
-
-
 ######################## END HAYSTACK CONFIGURATION
+
 
 ########################## REGISTRATION CONFIGURATION
 ACCOUNT_ACTIVATION_DAYS = 2

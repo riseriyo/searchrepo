@@ -72,10 +72,15 @@
 </div>
 <script type="text/javascript">
 	$(function() {
-    function log( message ) {
-      $( "<div>" ).text( message ).prependTo( "#log" );
-      $( "#log" ).scrollTop( 0 );
+    function getSearchResults( q ) {
+      //$( "<div>" ).text( message ).prependTo( "#log" );
+      //$( "#log" ).scrollTop( 0 );
+      //event.preventDefault();
+      console.log("in getSearchResults");
+      //$("#searchForm").submit(q, )
     }
+
+    //$('#searchForm').submit()
  
     $( "#search" ).autocomplete({
       source: function( request, response ) {
@@ -100,8 +105,6 @@
             else {
               response( $.map( data.results, function(item){
         	    return {
-                  //label: item.name + (item.adminName1 ? ", " + item.adminName1 : "") + ", " + item.countryName,
-                  //label: item.name
                   label: item,
                   value: item,
                 }
@@ -112,10 +115,15 @@
       },
       minLength: 2,
       select: function( event, ui ) {
-      	url
-        log( ui.item ?
-          "Selected: " + ui.item.label :
-          "Nothing selected, input was " + this.value);
+        //event.preventDefault();
+        //log( ui.item ?
+        //  "Selected: " + ui.item :
+        //  "Nothing selected, input was " + this.value);
+        alert(ui.item? "My selection: " + ui.item.name + " my value: " + ui.item.value : 
+        	"Nada is here" + this.value);
+        //event.preventDefault();
+        $("#search").val(ui.item.value);
+        $("#searchForm").submit();
       },
       open: function() {
         $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
@@ -124,6 +132,8 @@
         $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
       }
     }); //end autocomplete fn
+
+    
   }); //end main fn
 </script>
 {% endblock %} <!-- block header -->

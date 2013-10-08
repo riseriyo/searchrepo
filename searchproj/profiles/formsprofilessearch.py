@@ -26,6 +26,7 @@ class ProfilesAutoCompleteForm(SearchForm):
 
 		if not query:
 			print"inside 2nd if-not"
+			print self.no_query_found()
 			return self.no_query_found()
 
 		userauto = False

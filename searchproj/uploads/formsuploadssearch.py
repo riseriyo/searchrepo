@@ -1,11 +1,15 @@
+# django core
 from django import forms
-from haystack.forms import FacetedSearchForm
 
+# 3rd party plugins
+from haystack.forms import SearchForm
+from haystack.inputs import AutoQuery
 '''
+
 class UploadsSearchForm(forms.Form):
 	q = forms.CharField()
 
-class UploadsHaystackForm(FacetedSearchForm):
+class UploadsHaystackForm(SearchForm):
 	"""slightly customized search form that allows filtering on SearchQuerySet"""
 
 	def search(self):
@@ -25,4 +29,4 @@ class UploadsHaystackForm(FacetedSearchForm):
 			sqs = sqs.load_all()
 
 		return sqs
-		'''
+'''

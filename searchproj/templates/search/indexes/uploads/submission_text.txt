@@ -1,5 +1,5 @@
 {{ object.title }}
 {{ object.user }}
 {{ object.filetype }}
-{{ object.tags }}
+{% for tag in object.tags.all %} {{ tag.name }} {% endfor %}
 {{ object.description }}

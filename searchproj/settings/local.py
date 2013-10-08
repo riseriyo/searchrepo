@@ -53,7 +53,7 @@ if LOCAL:
     # Gmail's SMTP server setting: smtp.gmail.com
     # ask me for these settings...
     EMAIL_USE_TLS = True
-    EMAIL_HOST = "smtp.gmail.com"
+    EMAIL_HOST = get_env_variable('SECRET_EMAIL_HOST')
     EMAIL_HOST_USER = get_env_variable('SECRET_EMAIL_ACCOUNT')
     EMAIL_HOST_PASSWORD = get_env_variable('SECRET_EMAIL_PW') 
     EMAIL_PORT = 587
