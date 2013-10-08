@@ -72,15 +72,6 @@
 </div>
 <script type="text/javascript">
 	$(function() {
-    function getSearchResults( q ) {
-      //$( "<div>" ).text( message ).prependTo( "#log" );
-      //$( "#log" ).scrollTop( 0 );
-      //event.preventDefault();
-      console.log("in getSearchResults");
-      //$("#searchForm").submit(q, )
-    }
-
-    //$('#searchForm').submit()
  
     $( "#search" ).autocomplete({
       source: function( request, response ) {
@@ -98,21 +89,12 @@
           },
 
           success: function( data ) {
-            //response( $.map( data.geonames, function( item ) {
-            if (data.results.length === 0){
-              response(function(){alert("no results")});
-            }
-            else {
               response( $.map( data.results, function(item){
-        	    return {
-                  label: item,
-                  value: item,
-                }
-              })); //end response             	
-        	} //end else
+                return { label: item, value: item,}
+              })); //end response
           } //end success
         }); //end .ajax fn
-      },
+      }, //end source
       minLength: 2,
       select: function( event, ui ) {
         //event.preventDefault();

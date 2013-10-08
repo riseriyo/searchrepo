@@ -66,12 +66,12 @@ def autocompleteSearch(request):
 				print "suggestions: %s"%suggestions
 				if not suggestions:
 					the_data = json.dumps({})
-					#return render_to_response('search/search.html', context=sqs, context_instance=RequestContext(request))
+					print "the_data %s"%the_data
 					return HttpResponse(the_data, content_type='application/json')
 				else:
 					
 					the_data = json.dumps({'results':suggestions})
-					print the_data
+					print "the_data %s"%the_data
 					return HttpResponse(the_data,content_type='application/json')
 				
 			else: # is_valid
@@ -95,6 +95,7 @@ def autocompleteSearch(request):
 		if request.method == "GET": 
 			print 'inside GET'
 			form = ProfilesAutoCompleteForm(request.GET)
+			print "GET %s " %request.GET
 			if form.is_valid():
 				#sqs = SearchQuerySet.using('default').filter(content__contains=AutoQuery(query)).highlight()
 				#suggestions = []
@@ -104,12 +105,14 @@ def autocompleteSearch(request):
 				if sqs.count():
 					print "in else form.search %s " %sqs
 					paginator = Paginator(sqs, results_per_page or RESULTS_PER_PAGE)
+					print "paginator %s " %paginator
 					try:
 						page = paginator.page(int(request.GET.get('page', 1)))
+						print "page %s "% page
 					except InvalidPage:
 						raise Http404("No such page of results!")
 
-					context = {'form': form, 'page': page,'paginator': paginator,'query': sqs,'suggestion': None,}
+					context = {'form': form, 'page': page,'paginator': paginator,'query': form.cleaned_data['q'],'suggestion': None, 'sqs': sqs,}
 
 					return render_to_response('search/search.html', context, context_instance=RequestContext(request))
 				else:
@@ -120,41 +123,9 @@ def autocompleteSearch(request):
 					except InvalidPage:
 						raise Http404("No such page of results!")
 
-					context = {'form': form, 'page': page,'paginator': paginator,'query': sqs,'suggestion': None,}
-					return render_to_response('search/search.html', {'query':None, 'results': results}, context_instance=RequestContext(request) )
-
-				'''
-				if not form.search():
-					#sqs = SearchQuerySet.none
-					#print sqs
-					results = EmptySearchQuerySet()
-					paginator = Paginator(results, results_per_page or RESULTS_PER_PAGE)
-
-					context = {'query':None, 'results': results}
-					return render_to_response('search/search.html', {'query':None, 'results': results}, context_instance=RequestContext(request) )
-				else:
-					(sqs, userauto, stateauto, titleauto, tagsauto) = form.search()
-					print "in else form.search %s" %sqs
-
-					return render_to_response('search/search.html', {'query': sqs if sqs.count() else None}, context_instance=RequestContext(request) )
-				'''
+					context = {'form': form, 'page': page,'paginator': paginator,'query': form.cleaned_data['q'],'suggestion': None, 'sqs': sqs,}
+					return render_to_response('search/search.html', context, context_instance=RequestContext(request) )
 			else:
 				pass
 		else:
 			pass
-
-'''
-
-class AutocompleteSearchView(SearchView):
-	__name__ = 'SearchWithRequest'
-
-	def build_form(self, form_kwargs=None):
-		if form_kwargs is None:
-			form_kwargs = {}
-
-		if self.searchqueryset is None:
-			sqs = SearchQuerySet().autcomplete(content_auto=self.request.GET.get('q',''))
-			form_kwargs['searchqueryset'] = sqs
-
-		return super(AutocompleteSearchView, self).build_form(form_kwargs)
-'''

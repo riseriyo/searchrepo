@@ -3,7 +3,7 @@
 {% block content %}
     {% if query %}
         <h3>Results</h3>
-        <p><strong>Showing results for:</strong> &quot;{{ query }}&quot; </p>
+        <p><strong>Showing results for:</strong> <em>&quot;{{ query }}&quot;</em> </p>
         <ul>
         {% for result in page.object_list %}
                 <li>
@@ -20,6 +20,7 @@
                 TESTING ATTRIBUTES BELOW:<br /> 
                 ---------------------------------------------<br />
                 Result content_type: {{ result.content_type }}<br />
+                content_type.name: {{ results.content_type.user }}<br />
                 Result get_additional_fields: {{ result.get_additional_fields }}<br >
                 Resulst get_stored_fields: {{ result.get_stored_fields }}<br />
                 Result app_label: {{ result.app_label }}<br />
@@ -41,7 +42,7 @@
                 {% endif %}
                 </li>
         {% empty %}
-            <p>No results found for {{ query }}.</p>
+            <p>No results found for <em>&quot;{{ query }}&quot;</em>.</p>
         {% endfor %}
         </ul>
     {% else %}

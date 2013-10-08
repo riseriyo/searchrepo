@@ -20,9 +20,9 @@ class ProfilesAutoCompleteForm(SearchForm):
 			return self.no_query_found()
 
 		query = self.cleaned_data.get('q','')
-		print query
+		print "query %s " %query
 		sqs = self.searchqueryset
-		print sqs
+		print "sqs %s " %sqs
 
 		if not query:
 			print"inside 2nd if-not"
@@ -39,17 +39,16 @@ class ProfilesAutoCompleteForm(SearchForm):
 			# or - if all lists are empty, do a general search; otherwise, do autocompletion 
 			if not (sqs.using('autocomplete').autocomplete(user_auto=query) or sqs.using('autocomplete').autocomplete(state_auto=query) or 
 				sqs.using('autocomplete').autocomplete(title_auto=query) or sqs.using('autocomplete').autocomplete(tags_auto=query)):
-			#if not sqs:
 				print"inside if - default"
 				sqs = sqs.using('default').filter(content=AutoQuery(query)).highlight()
-				print sqs
+				print "sqs %s " %sqs
 			else:
 				# user must provide exact word for any search result
 				#sqs = sqs.using('default').models(UserProfile, Submission).filter(content=query)
 				print"inside if - autocomplete"
-				if sqs.using('autocomplete').autocomplete(user_auto=query):
+				if sqs.using('autocomplete').autocomplete(user_auto__contains=query):
 					print 'inside user-auto'
-					sqs = sqs.using('autocomplete').autocomplete(user_auto=query)
+					sqs = sqs.using('autocomplete').autocomplete(user_auto__contains=query)
 					userauto = True
 				elif sqs.using('autocomplete').autocomplete(state_auto=query):
 					print 'inside state-auto'
@@ -64,7 +63,7 @@ class ProfilesAutoCompleteForm(SearchForm):
 					sqs = sqs.using('autocomplete').autocomplete(tags_auto=query)
 					tagsauto = True
 
-				print sqs
+				print "sqs %s" %sqs
 
 		if self.load_all:
 			print"inside last if"
