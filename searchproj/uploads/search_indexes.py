@@ -15,7 +15,7 @@ from .models import Filetype
 class FiletypeIndex(indexes.SearchIndex, indexes.Indexable):
 	'''haystack's searchindex object handles data flow into elasticsearch'''
 
-	text 			= indexes.EdgeNgramField(document=True, use_template=True)
+	text 			= indexes.CharField(document=True, use_template=True)
 	filetype		= indexes.CharField(model_attr='filetype', faceted=True)
 
 	def index_queryset(self, using=None):
@@ -25,6 +25,7 @@ class FiletypeIndex(indexes.SearchIndex, indexes.Indexable):
 
 	def get_model(self):
 		return Filetype
+
 
 
 class SubmissionIndex(indexes.SearchIndex, indexes.Indexable):
@@ -37,7 +38,6 @@ class SubmissionIndex(indexes.SearchIndex, indexes.Indexable):
 
 	# content for autocomplete field for autcomplete purposes.
 	user_auto		= indexes.EdgeNgramField(model_attr='member')
-	tags_auto		= indexes.EdgeNgramField(model_attr="tags")
 
 	# clean data
 	#def prepare_user(self, obj):
@@ -49,8 +49,8 @@ class SubmissionIndex(indexes.SearchIndex, indexes.Indexable):
 	def prepare_filetype(self, obj):
 		return obj.filetype or 'SubmissionIndex: filetype Not available'
 
-	def prepare_tags(self,obj):
-		return obj.tags or 'SubmissionIndex: tags Not available'
+	def prepare_description(self,obj):
+		return obj.description or 'SubmissionIndex: description Not available'
 
 	def index_queryset(self, using=None):
 		"""Used when the entire index for model is updated."""

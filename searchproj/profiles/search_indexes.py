@@ -43,6 +43,13 @@ class UserProfileIndex(indexes.SearchIndex, indexes.Indexable):
 	#def prepare_user(self, obj):
 	#	return obj.username.name or 'UserProfileIndex: User Not available'
 
+	# do NOT add the following lines; gives following error message:
+	# Failed to clear Elasticsearch index django haystack
+	# ERROR:root:Error updating profiles using default 
+	# django  TypeError: <Position:Journeyman > is not JSON serializable
+	# def prepare_position(self,obj):
+	#	return obj.position or 'UserProfileIndex position not available'
+
 	def prepare_state(self, obj):
 		return obj.state or 'UserProfileIndex: state is Not available'
 

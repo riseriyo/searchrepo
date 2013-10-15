@@ -2,9 +2,11 @@ from django import forms
 
 from haystack.forms import SearchForm
 from haystack.inputs import AutoQuery
+from haystack.query import EmptySearchQuerySet, SearchQuerySet
 
 from .models import UserProfile
 from uploads.models import Submission
+from notes.models import Tag, Note
 
 
 class ProfilesSearchForm(forms.Form):
@@ -32,41 +34,75 @@ class ProfilesAutoCompleteForm(SearchForm):
 		userauto = False
 		stateauto = False
 		titleauto = False
-		tagsauto = False
+		tagnameauto = False
 
 		if query:
-			print"inside 3rd if"
+			print"inside profilesautocompleteform - inside 3rd if"
 			# or - if all lists are empty, do a general search; otherwise, do autocompletion 
 			if not (sqs.using('autocomplete').autocomplete(user_auto=query) or sqs.using('autocomplete').autocomplete(state_auto=query) or 
-				sqs.using('autocomplete').autocomplete(title_auto=query) or sqs.using('autocomplete').autocomplete(tags_auto=query)):
+				sqs.using('autocomplete').autocomplete(title_auto=query) or sqs.using('autocomplete').autocomplete(tagname_auto=query)):
 				print"inside if - default"
 				sqs = sqs.using('default').filter(content=AutoQuery(query)).highlight()
 				print "sqs %s " %sqs
 			else:
 				# user must provide exact word for any search result
-				#sqs = sqs.using('default').models(UserProfile, Submission).filter(content=query)
 				print"inside if - autocomplete"
-				if sqs.using('autocomplete').autocomplete(user_auto__contains=query):
-					print 'inside user-auto'
-					sqs = sqs.using('autocomplete').autocomplete(user_auto__contains=query)
-					userauto = True
-				elif sqs.using('autocomplete').autocomplete(state_auto=query):
-					print 'inside state-auto'
-					sqs = sqs.using('autocomplete').autocomplete(state_auto=query)
-					stateauto = True
-				elif sqs.using('autocomplete').autocomplete(title_auto=query):
-					print 'inside title-auto'
-					sqs = sqs.using('autocomplete').autocomplete(title_auto=query)
-					titleauto = True
-				elif sqs.using('autocomplete').autocomplete(tags_auto=query):
-					print 'inside tags-auto'
-					sqs = sqs.using('autocomplete').autocomplete(tags_auto=query)
-					tagsauto = True
+				autobools = {}
+				sqs1 = EmptySearchQuerySet()
+				sqs2 = EmptySearchQuerySet()
+				sqs3 = EmptySearchQuerySet()
+				sqs4 = EmptySearchQuerySet()
 
-				print "sqs %s" %sqs
+				
+				if sqs.using('autocomplete').autocomplete(user_auto__exact=query):
+					print 'inside user-auto'
+					sqs1 = sqs.using('autocomplete').autocomplete(user_auto__exact=query)
+					autobools['userauto'] = True
+					print 'sqs1: %s' %sqs1
+					userauto =True
+
+				if sqs.using('autocomplete').autocomplete(state_auto__exact=query):
+					print 'inside state-auto'
+					sqs2 = sqs.using('autocomplete').autocomplete(state_auto__exact=query)
+					autobools['stateauto'] = True
+					print 'sqs2: %s' %sqs2
+					stateauto = True
+
+				if sqs.using('autocomplete').autocomplete(title_auto__exact=query):
+					print 'inside title-auto'
+					sqs3 = sqs.using('autocomplete').autocomplete(title_auto__exact=query)
+					autobools['titleauto'] = True
+					print 'sqs3: %s' %sqs3
+					titleauto = True
+
+				if sqs.using('autocomplete').autocomplete(tagname_auto__exact=query):
+					print 'inside tags-auto'
+					sqs4 = sqs.using('autocomplete').autocomplete(tagname_auto__exact=query)
+					autobools['tagauto'] = True
+					print 'sqs4: %s' %sqs4
+					tagnameauto = True
+
+				temp = EmptySearchQuerySet()
+				for sobj in [sqs1,sqs2,sqs3,sqs4]:
+					print "sobj: %s" %sobj
+					if sobj:
+						temp = sobj | temp
+						print "temp %s" %temp
+
+
+
+				#sqsa = sqs1 | sqs2 
+				#sqsb = sqs3 | sqs4
+				#sqs = sqsa | sqsb
+				sqs = temp
+
+				
+				#print "formsprofilessearch: sqs %s" %sqs
+				print "in formsprofilessearch:  %s" %sqs
 
 		if self.load_all:
 			print"inside last if"
 			sqs = sqs.load_all()
 
-		return (sqs, userauto, stateauto, titleauto, tagsauto)
+		return (sqs , userauto, stateauto, titleauto, tagnameauto)
+		#return sqs

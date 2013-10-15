@@ -1,3 +1,5 @@
 {{ object.title }}
 {{ object.body }}
+{% for tag in object.tags.all %} {{ tag.tagname }} {% endfor %}
+{{ object.tagname }}
 {{ object.pub_date }}

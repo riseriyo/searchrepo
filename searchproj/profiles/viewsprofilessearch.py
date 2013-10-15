@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 import pdb
 import json
+from itertools import chain
 
 # django core
 # core django imports
@@ -21,6 +22,7 @@ from haystack.query import EmptySearchQuerySet
 # author code
 from .models import UserProfile
 from .formsprofilessearch import ProfilesAutoCompleteForm
+from uploads.formsuploadssearch import UploadsHaystackForm
 
 import logging
 logger = logging.getLogger(__name__)
@@ -43,27 +45,28 @@ def autocompleteSearch(request):
 				#pdb.set_trace()
 				print "inside is_valid"
 				suggestions = []
-				(sqs, userauto, stateauto, titleauto, tagsauto) = form.search()
+				(sqs, userauto, stateauto, titleauto, tagnameauto) = form.search()
+				#sqs = form.search()
 
 				# creates haystack objects
 				#sqs = SearchQuerySet().autocomplete(content_auto=request.GET.get('q',''))
-				if userauto:
-					suggestions = [result.user_auto for result in sqs]
 
-				elif stateauto:
-					suggestions = [result.state_auto for result in sqs]
+				for result in sqs:
+					if result.user_auto is not None and request.GET['q'] in result.user_auto.lower():
+						suggestions.append(result.user_auto)
+					if result.state_auto is not None and request.GET['q'] in result.state_auto.lower():
+						suggestions.append(result.state_auto)
+					if result.title_auto is not None and request.GET['q'] in result.title_auto.lower():
+						suggestions.append(result.title_auto)
+					if result.tagname_auto is not None and request.GET['q'] in result.tagname_auto.lower():
+						suggestions.append(result.tagname_auto)
 
-				elif titleauto:
-					suggestions = [result.title_auto for result in sqs]
 
-				elif tagsauto:
-					suggestions = [result.tags_auto for result in sqs]
+				print 'suggestions: %s' %suggestions
 
-				else:
-					#suggestions = [result.body for result in sqs]
-					pass
+				suggestions = sorted(list(set(suggestions)))
 
-				print "suggestions: %s"%suggestions
+				print "final suggestions: %s"%suggestions
 				if not suggestions:
 					the_data = json.dumps({})
 					print "the_data %s"%the_data
@@ -79,7 +82,8 @@ def autocompleteSearch(request):
 		else:  # is GET
 			pass
 	else: # not ajax
-		"""
+
+		'''
 			 Template:: ``search/search.html``
 			Context::
 			* form
@@ -90,16 +94,19 @@ def autocompleteSearch(request):
 			A paginator instance for the results.
 			* query
 			The query received by the form.
-		"""
+		'''	
 
 		if request.method == "GET": 
 			print 'inside GET'
-			form = ProfilesAutoCompleteForm(request.GET)
+			#form = ProfilesAutoCompleteForm(request.GET)
+			form = UploadsHaystackForm(request.GET)
+
 			print "GET %s " %request.GET
 			if form.is_valid():
 				#sqs = SearchQuerySet.using('default').filter(content__contains=AutoQuery(query)).highlight()
 				#suggestions = []
-				(sqs, userauto, stateauto,titleauto,tagsauto) = form.search()
+				#sqs = form.search()#, userauto, stateauto,titleauto,tagauto) = form.search()
+				(sqs, userauto, stateauto, titleauto, tagnameauto) = form.search()
 				results_per_page = None
 
 				if sqs.count():
@@ -129,3 +136,4 @@ def autocompleteSearch(request):
 				pass
 		else:
 			pass
+		
