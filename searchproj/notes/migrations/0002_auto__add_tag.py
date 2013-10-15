@@ -8,55 +8,31 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Filetype'
-        db.create_table(u'uploads_filetype', (
+        # Adding model 'Tag'
+        db.create_table(u'notes_tag', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
             ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('filetype', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('tag', self.gf('django.db.models.fields.CharField')(unique=True, max_length=250)),
         ))
-        db.send_create_signal(u'uploads', ['Filetype'])
+        db.send_create_signal(u'notes', ['Tag'])
 
-        # Adding model 'Submission'
-        db.create_table(u'uploads_submission', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
-            ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='member', to=orm['profiles.UserProfile'])),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=250)),
-            ('filetype', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['uploads.Filetype'], null=True, blank=True)),
-            ('tags', self.gf('django.db.models.fields.CharField')(max_length=250, null=True)),
-            ('description', self.gf('django.db.models.fields.TextField')()),
-            ('vidfeature', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('vidstaffpick', self.gf('django.db.models.fields.BooleanField')(default=False)),
+        # Adding M2M table for field tags on 'Note'
+        m2m_table_name = db.shorten_name(u'notes_note_tags')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('note', models.ForeignKey(orm[u'notes.note'], null=False)),
+            ('tag', models.ForeignKey(orm[u'notes.tag'], null=False))
         ))
-        db.send_create_signal(u'uploads', ['Submission'])
-
-        # Adding model 'Revision'
-        db.create_table(u'uploads_revision', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
-            ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('submission', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['uploads.Submission'], null=True, blank=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['profiles.UserProfile'], null=True, blank=True)),
-            ('sourcefile', self.gf('django.db.models.fields.files.FileField')(max_length=250)),
-            ('vidanimation', self.gf('django.db.models.fields.files.FileField')(max_length=250, null=True, blank=True)),
-            ('vidpic', self.gf('django.db.models.fields.files.ImageField')(max_length=250, null=True, blank=True)),
-            ('comments', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('_order', self.gf('django.db.models.fields.IntegerField')(default=0)),
-        ))
-        db.send_create_signal(u'uploads', ['Revision'])
+        db.create_unique(m2m_table_name, ['note_id', 'tag_id'])
 
 
     def backwards(self, orm):
-        # Deleting model 'Filetype'
-        db.delete_table(u'uploads_filetype')
+        # Deleting model 'Tag'
+        db.delete_table(u'notes_tag')
 
-        # Deleting model 'Submission'
-        db.delete_table(u'uploads_submission')
-
-        # Deleting model 'Revision'
-        db.delete_table(u'uploads_revision')
+        # Removing M2M table for field tags on 'Note'
+        db.delete_table(db.shorten_name(u'notes_note_tags'))
 
 
     models = {
@@ -96,6 +72,24 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
+        u'notes.note': {
+            'Meta': {'object_name': 'Note'},
+            'body': ('django.db.models.fields.TextField', [], {}),
+            'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
+            'pub_date': ('django.db.models.fields.DateTimeField', [], {}),
+            'tags': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['notes.Tag']", 'null': 'True', 'blank': 'True'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'author'", 'to': u"orm['profiles.UserProfile']"})
+        },
+        u'notes.tag': {
+            'Meta': {'object_name': 'Tag'},
+            'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
+            'tag': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '250'})
+        },
         u'profiles.position': {
             'Meta': {'object_name': 'Position'},
             'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
@@ -119,40 +113,7 @@ class Migration(SchemaMigration):
             'userpic': ('django.db.models.fields.files.ImageField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'}),
             'website': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'zipcode': ('django.db.models.fields.CharField', [], {'max_length': '40', 'blank': 'True'})
-        },
-        u'uploads.filetype': {
-            'Meta': {'object_name': 'Filetype'},
-            'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
-            'filetype': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'})
-        },
-        u'uploads.revision': {
-            'Meta': {'ordering': "(u'_order',)", 'object_name': 'Revision'},
-            '_order': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'comments': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
-            'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
-            'sourcefile': ('django.db.models.fields.files.FileField', [], {'max_length': '250'}),
-            'submission': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['uploads.Submission']", 'null': 'True', 'blank': 'True'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['profiles.UserProfile']", 'null': 'True', 'blank': 'True'}),
-            'vidanimation': ('django.db.models.fields.files.FileField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'}),
-            'vidpic': ('django.db.models.fields.files.ImageField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'})
-        },
-        u'uploads.submission': {
-            'Meta': {'object_name': 'Submission'},
-            'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
-            'description': ('django.db.models.fields.TextField', [], {}),
-            'filetype': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['uploads.Filetype']", 'null': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
-            'tags': ('django.db.models.fields.CharField', [], {'max_length': '250', 'null': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'member'", 'to': u"orm['profiles.UserProfile']"}),
-            'vidfeature': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'vidstaffpick': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
         }
     }
 
-    complete_apps = ['uploads']
+    complete_apps = ['notes']

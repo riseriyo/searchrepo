@@ -31,9 +31,9 @@ from haystack.forms import FacetedSearchForm
 from haystack.query import SearchQuerySet
 
 # author's code
-from profiles.formsprofilessearch import ProfilesSearchForm, ProfilesHaystackForm
+#from profiles.formsprofilessearch import ProfilesSearchForm, ProfilesHaystackForm
 
-pdb.set_trace()
+#pdb.set_trace()
 urlpatterns = patterns('',
                 # Examples:
                 # url(r'^$', 'searchapp.views.home', name='home'),
@@ -51,16 +51,11 @@ urlpatterns = patterns('',
             	url(r'^about/$', 'profiles.viewsmainnav.about', name='about'),
 
                 # search in the default URLconf for Haystack
-                #url(r'^search/$',search_view_factory(view_class=SearchView, form_class=ProfilesHaystackForm), name='basicsearch'),
-                url(r'^search/$', include('haystack.urls')),
-                #url(r'^search/custom/$',search_view_factory(view_class=SearchView,form_class=ProfilesHaystackForm), name='custom_search'),
-                #url(r'^search/','notes.viewsnotessearch.notessearch', name='notessearch'),
-                #url(r'^search/','profiles.viewsprofilessearch.profilessearch', name='profilessearch'),
-                #url(r'^search/','uploads.viewsuploadssearch.filetypessearch', name='filessearch'),
-                #url(r'^search/','uploads.viewsuploadssearch.submissionssearch', name='submissionssearch'),
-                #url(r'^search/','uploads.viewsuploadssearch.revisionssearch', name='revisionssearch'),
+                url(r'^search/', include('profiles.urls')),
+                url(r'^search/', include('haystack.urls')),
 
-                # static files, images
+
+                # static files, images; force Django to server static files
                 (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': STATIC_ROOT}),
 
                 # user registration, activation

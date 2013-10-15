@@ -76,5 +76,6 @@ class Revision(TimeStampedModel):
 	vidpic				= models.ImageField('Revision', max_length=250, upload_to=upload_thumbnail_to, null=True, blank=True)
 	comments			= models.CharField(max_length=200)
 	
+	# revision is related to submission and submission has many revisions that need to be ordered wrt submission
 	class Meta:
 		order_with_respect_to = 'submission'

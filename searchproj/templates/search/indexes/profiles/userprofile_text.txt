@@ -1,3 +1,5 @@
-{{ object.user.get_full_name }}
+{{ object.user }}
+{{ object.position }}
+{{ object.city }}
 {{ object.state }}
 {{ object.zipcode }}

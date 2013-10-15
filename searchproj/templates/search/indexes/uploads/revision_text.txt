@@ -1,4 +1,4 @@
-{{ object.user.get_full_name }}
+{{ object.user }}
 {{ object.sourcefile.url }}
 {{ object.vidpic.url }}
 {{ object.comments }}

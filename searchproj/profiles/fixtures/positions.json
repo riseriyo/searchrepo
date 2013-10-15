@@ -1,22 +1,22 @@
 [
 	{
 		"model": "profiles.Position",
-		"pk": "10",
-		"fields": {"position":"Apprentice"}
+		"pk":10,
+		"fields":{"position":"Apprentice"}
 	},
 	{
 		"model":"profiles.Position",
-		"pk":"20",
+		"pk":20,
 		"fields":{"position":"Journeyman"}
 	},
 	{
 		"model":"profiles.Position",
-		"pk":"30",
+		"pk":30,
 		"fields":{"position":"Master"}
 	}, 
 	{
 		"model":"profiles.Position",
-		"pk":"40",
+		"pk":40,
 		"fields":{"position":"Other DIYer"}
 	}
 ]

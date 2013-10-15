@@ -8,15 +8,21 @@
 	<meta name="viewport" content="width=device-width">
 	<meta charset="UTF-8">
 
-	<link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/font-awesome.css">
-	<link rel="stylesheet" href="{{ STATIC_URL }}css/main.css">
+	{% block css %}
+		<link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/font-awesome.css">
+		<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/ui-lightness/jquery-ui.css">
+		<link rel="stylesheet" href="{{ STATIC_URL }}css/main.css">
+	{% endblock css %}
 
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.1/jquery.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-	<script src="{{ STATIC_URL }}js/jquery.jtruncate.pack.js"></script>
-	<script src="{{ STATIC_URL }}js/trunk8.js"></script>
+	{% block javascript %}
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.1/jquery.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+		<script src="{{ STATIC_URL }}js/jquery.jtruncate.pack.js"></script>
+		<script src="{{ STATIC_URL }}js/trunk8.js"></script>
+		<script src="{{ STATIC_URL }}js/ajax.js"></script>
+	{% endblock javascript %}
 </head>
 
 <body>

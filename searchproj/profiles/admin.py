@@ -22,6 +22,7 @@ from uploads.models import Revision
 from uploads.search_indexes import RevisionIndex
 from uploads.models import Filetype
 from uploads.search_indexes import FiletypeIndex
+from notes.models import Tag
 from notes.models import Note
 from notes.search_indexes import NoteIndex
 
@@ -39,15 +40,22 @@ class UserProfileAdmin(admin.ModelAdmin):
 					  ]
 	#inlines		= [SubmissionInline]
 	list_display	= ['user','address1','state','zipcode']
-	
-	
+
+
+class TagAdmin(admin.ModelAdmin):
+	fieldsets		= [
+					('Tag', { 'fields': ['tagname']}),
+					]
+	list_display	= ('tagname', 'displayNotes', )
+
+
 class NoteAdmin(admin.ModelAdmin):
 	fieldsets		= [
 					('Title', { 'fields': ['user','title']}),
 					('Published date',{ 'fields': ['pub_date']}),
 					('Body', { 'fields': ['body']}),
 					]
-	list_display	= ('user', 'pub_date', 'title', 'body')
+	list_display	= ('user', 'pub_date', 'title', 'body', 'displayTags',)
 	
 class SubmissionAdmin(admin.ModelAdmin):
 	fieldsets		= [
@@ -68,12 +76,9 @@ class RevisionAdmin(admin.ModelAdmin):
 	list_display 	= ('id', 'submission', 'user', 'created', 'modified' )
 	
 admin.site.register(UserProfile, UserProfileAdmin)
-#site.register(UserProfile, UserProfileIndex)
+admin.site.register(Tag, TagAdmin)
 admin.site.register(Note, NoteAdmin)
-#site.register(Note, NoteIndex)
 admin.site.register(Submission, SubmissionAdmin)
-#site.register(Submission, SubmissionIndex)
 admin.site.register(Revision, RevisionAdmin)
-#site.register(Revision, RevisionIndex)
 admin.site.register(Position)
 admin.site.register(Filetype)

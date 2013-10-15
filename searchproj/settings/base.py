@@ -42,13 +42,14 @@ print "project_root = %s" %PROJECT_ROOT
 ####################### DATABASE CONFIGURATION
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'jdh_db',                             # Or path to database file if using sqlite3.
+        'ENGINE': get_env_variable('SECRET_DATABASE'), # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': get_env_variable('SECRET_DATABASE_NAME'),                            # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
         'HOST': 'localhost',             # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '',                      # Set to empty string for default.
+        'OPTIONS': {'autocommit': True,},
     }
 }
 ####################### END DATABASE CONFIGURATION 
@@ -63,30 +64,23 @@ HAYSTACK_CONNECTIONS = {
         'URL': 'http://127.0.0.1:9200/',
         'INDEX_NAME': 'haystack',
     },
+
+    'autocomplete': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'hs_autocomplete',
+    },
 }
 
 # enable signal processor that updates the index with additions/deletions
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
-
-
 ######################## END HAYSTACK CONFIGURATION
+
 
 ########################## REGISTRATION CONFIGURATION
 ACCOUNT_ACTIVATION_DAYS = 2
 
 ########################## END REGISTRATION CONFIGURATION
-
-##################### EMAIL CONFIGURATION
-# Settings for the mail server that is listening on the MFB VM: 
-# in terminal enter: python -m smtpd -n -c DebuggingServer localhost:1025
-EMAIL_USE_TLS = True
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = "molecularflipbook@gmail.com"
-EMAIL_HOST_PASSWORD = "Mfbteam1"
-EMAIL_PORT = 587
-DEFAULT_FROM_EMAIL = 'molecularflipbook@gmail.com'
-###################### END EMAIL CONFIGURATION
-
 
 ###################### GENERAL CONFIGURATION
 # provide our get_profile()

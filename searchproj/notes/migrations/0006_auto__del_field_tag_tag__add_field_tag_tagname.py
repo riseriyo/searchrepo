@@ -8,22 +8,23 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Note'
-        db.create_table(u'notes_note', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
-            ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='author', to=orm['profiles.UserProfile'])),
-            ('pub_date', self.gf('django.db.models.fields.DateTimeField')()),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('body', self.gf('django.db.models.fields.TextField')()),
-        ))
-        db.send_create_signal(u'notes', ['Note'])
+        # Deleting field 'Tag.tag'
+        db.delete_column(u'notes_tag', 'tag')
+
+        # Adding field 'Tag.tagname'
+        db.add_column(u'notes_tag', 'tagname',
+                      self.gf('django.db.models.fields.CharField')(max_length=250, unique=True, null=True, blank=True),
+                      keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting model 'Note'
-        db.delete_table(u'notes_note')
+        # Adding field 'Tag.tag'
+        db.add_column(u'notes_tag', 'tag',
+                      self.gf('django.db.models.fields.CharField')(unique=True, max_length=250, null=True, blank=True),
+                      keep_default=False)
+
+        # Deleting field 'Tag.tagname'
+        db.delete_column(u'notes_tag', 'tagname')
 
 
     models = {
@@ -72,6 +73,14 @@ class Migration(SchemaMigration):
             'pub_date': ('django.db.models.fields.DateTimeField', [], {}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'author'", 'to': u"orm['profiles.UserProfile']"})
+        },
+        u'notes.tag': {
+            'Meta': {'object_name': 'Tag'},
+            'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
+            'notes': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['notes.Note']", 'null': 'True', 'blank': 'True'}),
+            'tagname': ('django.db.models.fields.CharField', [], {'max_length': '250', 'unique': 'True', 'null': 'True', 'blank': 'True'})
         },
         u'profiles.position': {
             'Meta': {'object_name': 'Position'},

@@ -8,22 +8,47 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Note'
-        db.create_table(u'notes_note', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('model_utils.fields.AutoCreatedField')(default=datetime.datetime.now)),
-            ('modified', self.gf('model_utils.fields.AutoLastModifiedField')(default=datetime.datetime.now)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='author', to=orm['profiles.UserProfile'])),
-            ('pub_date', self.gf('django.db.models.fields.DateTimeField')()),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('body', self.gf('django.db.models.fields.TextField')()),
+        # Adding field 'Note.tag'
+        db.add_column(u'notes_note', 'tag',
+                      self.gf('django.db.models.fields.CharField')(max_length=250, unique=True, null=True, blank=True),
+                      keep_default=False)
+
+        # Removing M2M table for field tags on 'Note'
+        db.delete_table(db.shorten_name(u'notes_note_tags'))
+
+        # Deleting field 'Tag.tag'
+        db.delete_column(u'notes_tag', 'tag')
+
+        # Adding M2M table for field tagnames on 'Tag'
+        m2m_table_name = db.shorten_name(u'notes_tag_tagnames')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('tag', models.ForeignKey(orm[u'notes.tag'], null=False)),
+            ('note', models.ForeignKey(orm[u'notes.note'], null=False))
         ))
-        db.send_create_signal(u'notes', ['Note'])
+        db.create_unique(m2m_table_name, ['tag_id', 'note_id'])
 
 
     def backwards(self, orm):
-        # Deleting model 'Note'
-        db.delete_table(u'notes_note')
+        # Deleting field 'Note.tag'
+        db.delete_column(u'notes_note', 'tag')
+
+        # Adding M2M table for field tags on 'Note'
+        m2m_table_name = db.shorten_name(u'notes_note_tags')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('note', models.ForeignKey(orm[u'notes.note'], null=False)),
+            ('tag', models.ForeignKey(orm[u'notes.tag'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['note_id', 'tag_id'])
+
+        # Adding field 'Tag.tag'
+        db.add_column(u'notes_tag', 'tag',
+                      self.gf('django.db.models.fields.CharField')(default=datetime.datetime(2013, 10, 9, 0, 0), max_length=250, unique=True),
+                      keep_default=False)
+
+        # Removing M2M table for field tagnames on 'Tag'
+        db.delete_table(db.shorten_name(u'notes_tag_tagnames'))
 
 
     models = {
@@ -70,8 +95,16 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
             'pub_date': ('django.db.models.fields.DateTimeField', [], {}),
+            'tag': ('django.db.models.fields.CharField', [], {'max_length': '250', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'author'", 'to': u"orm['profiles.UserProfile']"})
+        },
+        u'notes.tag': {
+            'Meta': {'object_name': 'Tag'},
+            'created': ('model_utils.fields.AutoCreatedField', [], {'default': 'datetime.datetime.now'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'modified': ('model_utils.fields.AutoLastModifiedField', [], {'default': 'datetime.datetime.now'}),
+            'tagnames': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'null': 'True', 'symmetrical': 'False', 'to': u"orm['notes.Note']"})
         },
         u'profiles.position': {
             'Meta': {'object_name': 'Position'},
