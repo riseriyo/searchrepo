@@ -76,10 +76,7 @@
     $( "#search" ).autocomplete({
       source: function( request, response ) {
         $.ajax({
-          //url: "http://ws.geonames.org/searchJSON",
-          //type:"POST",
           url: "{% url 'acsearch' %}",
-          //headers: {'X_REQUESTED_WITH': 'XMLHttpRequest'},
           dataType: "json",
           data: {
             featureClass: "P",
@@ -87,7 +84,6 @@
             maxRows: 12,
             q: request.term,
           },
-
           success: function( data ) {
               response( $.map( data.results, function(item){
                 return { label: item, value: item,}
@@ -97,13 +93,7 @@
       }, //end source
       minLength: 2,
       select: function( event, ui ) {
-        //event.preventDefault();
-        //log( ui.item ?
-        //  "Selected: " + ui.item :
-        //  "Nothing selected, input was " + this.value);
-        alert(ui.item? "My selection: " + ui.item.name + " my value: " + ui.item.value : 
-        	"Nada is here" + this.value);
-        //event.preventDefault();
+
         $("#search").val(ui.item.value);
         $("#searchForm").submit();
       },
@@ -114,8 +104,6 @@
         $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
       }
     }); //end autocomplete fn
-
-    
   }); //end main fn
 </script>
 {% endblock %} <!-- block header -->

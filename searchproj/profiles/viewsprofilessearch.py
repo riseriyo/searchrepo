@@ -21,8 +21,7 @@ from haystack.query import EmptySearchQuerySet
 
 # author code
 from .models import UserProfile
-from .formsprofilessearch import ProfilesAutoCompleteForm
-from uploads.formsuploadssearch import UploadsHaystackForm
+from .formsprofilessearch import ProfilesAutoCompleteForm, UploadsHaystackForm
 
 import logging
 logger = logging.getLogger(__name__)
@@ -45,11 +44,7 @@ def autocompleteSearch(request):
 				#pdb.set_trace()
 				print "inside is_valid"
 				suggestions = []
-				(sqs, userauto, stateauto, titleauto, tagnameauto) = form.search()
-				#sqs = form.search()
-
-				# creates haystack objects
-				#sqs = SearchQuerySet().autocomplete(content_auto=request.GET.get('q',''))
+				sqs = form.search()
 
 				for result in sqs:
 					if result.user_auto is not None and request.GET['q'] in result.user_auto.lower():
@@ -63,7 +58,6 @@ def autocompleteSearch(request):
 
 
 				print 'suggestions: %s' %suggestions
-
 				suggestions = sorted(list(set(suggestions)))
 
 				print "final suggestions: %s"%suggestions
@@ -98,15 +92,11 @@ def autocompleteSearch(request):
 
 		if request.method == "GET": 
 			print 'inside GET'
-			#form = ProfilesAutoCompleteForm(request.GET)
 			form = UploadsHaystackForm(request.GET)
 
 			print "GET %s " %request.GET
 			if form.is_valid():
-				#sqs = SearchQuerySet.using('default').filter(content__contains=AutoQuery(query)).highlight()
-				#suggestions = []
-				#sqs = form.search()#, userauto, stateauto,titleauto,tagauto) = form.search()
-				(sqs, userauto, stateauto, titleauto, tagnameauto) = form.search()
+				sqs = form.search()
 				results_per_page = None
 
 				if sqs.count():

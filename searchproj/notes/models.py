@@ -13,8 +13,8 @@ from profiles.models import UserProfile
 
 class Tag(TimeStampedModel):
 	'''M2M tag can be in many Notes and a Note can have many tags'''
-	tagname			= models.CharField(max_length=250, null=True, blank=True, unique=True) # tag can be in many notes
-	notes 	 		= models.ManyToManyField('Note', related_name='tags', null=True, blank=True) 				# a note may have 0 or 1 or more tags
+	tagname			= models.CharField(max_length=250, null=True, blank=True, unique=True) 				# tag can be in many notes
+	notes 	 		= models.ManyToManyField('Note', related_name='tags', null=True, blank=True) 		# a note may have 0 or 1 or more tags
 
 	def __unicode__(self):
 		return "%s" %(self.tagname)
@@ -24,12 +24,10 @@ class Tag(TimeStampedModel):
 
 
 class Note(TimeStampedModel):
-	user		= models.ForeignKey('profiles.UserProfile', related_name='author') # a submission remembers who submitted it
+	user		= models.ForeignKey('profiles.UserProfile', related_name='author') 						# a submission remembers who submitted it
 	pub_date 	= models.DateTimeField()
 	title 		= models.CharField(max_length=200)
 	body 		= models.TextField()
-	#tags		= models.ManyToManyField('Tag', null=True, blank=True) # a note may have 0 or 1 or more tags
-	#tag 		= models.CharField(max_length=250, null=True, blank=True, unique=True)
 
 	def __unicode__(self):
 		return "%s" %(self.title)

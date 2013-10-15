@@ -9,8 +9,8 @@ from uploads.models import Submission
 from notes.models import Tag, Note
 
 
-class ProfilesSearchForm(forms.Form):
-	q = forms.CharField(required=False)
+#class ProfilesSearchForm(forms.Form):
+#	q = forms.CharField(required=False)
 
 class ProfilesAutoCompleteForm(SearchForm):
 	"""slightly customized search form that allows filtering on SearchQuerySet"""
@@ -64,21 +64,18 @@ class ProfilesAutoCompleteForm(SearchForm):
 				if sqs.using('autocomplete').autocomplete(state_auto__exact=query):
 					print 'inside state-auto'
 					sqs2 = sqs.using('autocomplete').autocomplete(state_auto__exact=query)
-					autobools['stateauto'] = True
 					print 'sqs2: %s' %sqs2
 					stateauto = True
 
 				if sqs.using('autocomplete').autocomplete(title_auto__exact=query):
 					print 'inside title-auto'
 					sqs3 = sqs.using('autocomplete').autocomplete(title_auto__exact=query)
-					autobools['titleauto'] = True
 					print 'sqs3: %s' %sqs3
 					titleauto = True
 
 				if sqs.using('autocomplete').autocomplete(tagname_auto__exact=query):
 					print 'inside tags-auto'
 					sqs4 = sqs.using('autocomplete').autocomplete(tagname_auto__exact=query)
-					autobools['tagauto'] = True
 					print 'sqs4: %s' %sqs4
 					tagnameauto = True
 
@@ -89,13 +86,7 @@ class ProfilesAutoCompleteForm(SearchForm):
 						temp = sobj | temp
 						print "temp %s" %temp
 
-
-
-				#sqsa = sqs1 | sqs2 
-				#sqsb = sqs3 | sqs4
-				#sqs = sqsa | sqsb
 				sqs = temp
-
 				
 				#print "formsprofilessearch: sqs %s" %sqs
 				print "in formsprofilessearch:  %s" %sqs
@@ -104,5 +95,36 @@ class ProfilesAutoCompleteForm(SearchForm):
 			print"inside last if"
 			sqs = sqs.load_all()
 
-		return (sqs , userauto, stateauto, titleauto, tagnameauto)
-		#return sqs
+		return sqs
+
+
+#class UploadsSearchForm(forms.Form):
+#	q = forms.CharField()
+
+
+class UploadsHaystackForm(SearchForm):
+	"""selected term from search widget apply auto query"""
+
+	def search(self):
+		if not self.is_valid():
+			return self.no_query_found()
+
+		query = self.cleaned_data.get('q','')
+		sqs = self.searchqueryset
+
+		if not query:
+			return self.no_query_found()
+
+		if query:
+			print"inside formsuploadshaystackform - inside 3rd if"
+
+			sqs = sqs.using('default').filter(content=AutoQuery(query)).highlight()
+
+			#print "formsprofilessearch: sqs %s" %sqs
+			print "in formsprofilessearch:  %s" %sqs
+
+		if self.load_all:
+			print"inside last if"
+			sqs = sqs.load_all()
+
+		return sqs
