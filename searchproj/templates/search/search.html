@@ -7,15 +7,17 @@
         <ul>
         {% for result in page.object_list %}
                 <li>
+                <strong>PAGE.OBJECT_LIST:</strong> {{ page.object_list }}<br /><br />
                 <strong>RESULT</strong>: {{ result.highlighted }}<br />
                 <strong>Result score: {{ result.score }}</strong><br />
                 <strong>Username:</strong> <a href="#" > {{ result.object.user }}</a><br />
                 <strong>Result pk</strong>: {{ result.pk }}<br />
+                <strong>Actual Model Instance</strong>: {{ result.object }}<br />
                 <strong>State</strong>: {{ result.object.state }}<br />
-                <strong>Zipcode</strong>: {{ result.object.zipcode }}<br /><br />
+                <strong>Zipcode</strong>: {{ result.object.zipcode }}<br />
                 <strong>Position</strong>: {{ result.object.position }}<br />
                 <strong>Filetype</strong>: {{ result.object.filetype }}<br />
-                <strong>Title</strong>: {{ result.object.title }}<br />
+                <strong>Title</strong>: {{ result.object.title }}<br /><BR />
 
                 TESTING ATTRIBUTES BELOW:<br /> 
                 ---------------------------------------------<br />
@@ -36,9 +38,19 @@
                 ---------------------------------------------<br />
 
                 {% if result.model_name == "userprofile" %}
-                    <strong>layout for userprofile's submissions</strong><br />
+                    <strong>LAYOUT FOR USERPROFILES</strong><br />
+                   {% include "search/search_profiles.html" %}
+                {% elif result.model_name = "state" %}
+                   <strong>LAYOUT FOR STATE</strong><br />
+                   {% include "search/search_states.html" %}
+                {% elif result.model_name == "tag"  %}
+                    <strong>LAYOUT FOR TAG</strong><br />
+                    {% include "search/search_tags.html" %}
                 {% elif result.model_name  == "note" %}
-                    <strong>layout for notes body</strong><br /><br />
+                    <strong>LAYOUT FOR NOTES</strong><br />
+                    {% include "search/search_notes.html" %}
+                {% elif result.model_name == 'filetype' %}
+                    <strong>LAYOUT FOR FILETYPES</strong><br />
                 {% endif %}
                 </li>
         {% empty %}

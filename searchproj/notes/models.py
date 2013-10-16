@@ -24,7 +24,7 @@ class Tag(TimeStampedModel):
 
 
 class Note(TimeStampedModel):
-	user		= models.ForeignKey('profiles.UserProfile', related_name='author') 						# a submission remembers who submitted it
+	user		= models.ForeignKey('profiles.UserProfile', related_name='author') 						# a note remembers who submitted it
 	pub_date 	= models.DateTimeField()
 	title 		= models.CharField(max_length=200)
 	body 		= models.TextField()
@@ -34,3 +34,6 @@ class Note(TimeStampedModel):
 
 	def displayTags(self):
 		return ', '.join([tag.tagname for tag in self.tags.all()])
+
+	def displayAuthor(self):
+		return "%s" %(self.user)

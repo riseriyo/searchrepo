@@ -9,9 +9,6 @@ from uploads.models import Submission
 from notes.models import Tag, Note
 
 
-#class ProfilesSearchForm(forms.Form):
-#	q = forms.CharField(required=False)
-
 class ProfilesAutoCompleteForm(SearchForm):
 	"""slightly customized search form that allows filtering on SearchQuerySet"""
 
@@ -31,11 +28,6 @@ class ProfilesAutoCompleteForm(SearchForm):
 			print self.no_query_found()
 			return self.no_query_found()
 
-		userauto = False
-		stateauto = False
-		titleauto = False
-		tagnameauto = False
-
 		if query:
 			print"inside profilesautocompleteform - inside 3rd if"
 			# or - if all lists are empty, do a general search; otherwise, do autocompletion 
@@ -47,7 +39,6 @@ class ProfilesAutoCompleteForm(SearchForm):
 			else:
 				# user must provide exact word for any search result
 				print"inside if - autocomplete"
-				autobools = {}
 				sqs1 = EmptySearchQuerySet()
 				sqs2 = EmptySearchQuerySet()
 				sqs3 = EmptySearchQuerySet()
@@ -55,29 +46,20 @@ class ProfilesAutoCompleteForm(SearchForm):
 
 				
 				if sqs.using('autocomplete').autocomplete(user_auto__exact=query):
-					print 'inside user-auto'
 					sqs1 = sqs.using('autocomplete').autocomplete(user_auto__exact=query)
-					autobools['userauto'] = True
-					print 'sqs1: %s' %sqs1
-					userauto =True
+					print 'inside user-auto - sqs1: %s' %sqs1
 
 				if sqs.using('autocomplete').autocomplete(state_auto__exact=query):
-					print 'inside state-auto'
 					sqs2 = sqs.using('autocomplete').autocomplete(state_auto__exact=query)
-					print 'sqs2: %s' %sqs2
-					stateauto = True
+					print 'inside state-auto - sqs2: %s' %sqs2
 
 				if sqs.using('autocomplete').autocomplete(title_auto__exact=query):
-					print 'inside title-auto'
 					sqs3 = sqs.using('autocomplete').autocomplete(title_auto__exact=query)
-					print 'sqs3: %s' %sqs3
-					titleauto = True
+					print 'inside title-auto - sqs3: %s' %sqs3
 
 				if sqs.using('autocomplete').autocomplete(tagname_auto__exact=query):
-					print 'inside tags-auto'
 					sqs4 = sqs.using('autocomplete').autocomplete(tagname_auto__exact=query)
-					print 'sqs4: %s' %sqs4
-					tagnameauto = True
+					print 'inside tags-auto - sqs4: %s' %sqs4
 
 				temp = EmptySearchQuerySet()
 				for sobj in [sqs1,sqs2,sqs3,sqs4]:
@@ -87,8 +69,6 @@ class ProfilesAutoCompleteForm(SearchForm):
 						print "temp %s" %temp
 
 				sqs = temp
-				
-				#print "formsprofilessearch: sqs %s" %sqs
 				print "in formsprofilessearch:  %s" %sqs
 
 		if self.load_all:
@@ -96,10 +76,6 @@ class ProfilesAutoCompleteForm(SearchForm):
 			sqs = sqs.load_all()
 
 		return sqs
-
-
-#class UploadsSearchForm(forms.Form):
-#	q = forms.CharField()
 
 
 class UploadsHaystackForm(SearchForm):
