@@ -39,7 +39,7 @@ class UserProfileAdmin(admin.ModelAdmin):
 					  ('Mailing Address', { 'fields': ['address1', 'address2', 'city', 'state', 'zipcode'], 'classes': ['collapse']}), 
 					  ]
 	#inlines		= [SubmissionInline]
-	list_display	= ['user','address1','state','zipcode']
+	list_display	= ['user','address1','state','zipcode',]
 
 
 class TagAdmin(admin.ModelAdmin):

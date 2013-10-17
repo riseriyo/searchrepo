@@ -1,2 +1,10 @@
-<strong>Title</strong>: {{ result.object.title }}<br />
-<strong>User</strong>: {{ result.object.user }}<br /><BR />
+{% load highlight %}
+
+<strong>RESULT</strong>: {{ result.highlighted }}<br />
+<strong>Result score: {{ result.score }}</strong><br />
+User: <a href="#" >{% highlight result.object.user with query html_tag "strong" max_length 1000000 %}</a> <strong>User Result pk</strong>: {{ result.pk }}<br />
+SearchResult PK: {{ result.object.user.pk }}<br />
+Title: {% highlight result.object.title with query html_tag "strong" max_length 10000000 %}<br />
+Body: {% highlight result.object.body with query html_tag "strong" max_length 10000000 %}<br />
+Tags: {% for tag in result.object.tags.all %} {% highlight tag.tagname with query html_tag "strong" max_length 1000000 %}, {% endfor %}<br /><br />
+

@@ -16,7 +16,7 @@ from .models import Tag
 class TagIndex(indexes.SearchIndex, indexes.Indexable):
 	'''index tags '''
 	text 				= indexes.CharField(document=True, use_template=True)
-	tagname_auto	 	= indexes.EdgeNgramField(model_attr="tagname", null=True) # or indexes.EdgeNgramField()???
+	tagname_auto	 	= indexes.EdgeNgramField(model_attr="tagname", null=True, boost=100.0) # or indexes.EdgeNgramField()???
 	notes 				= indexes.MultiValueField()
 
 	# error TypeError: 'ManyRelatedManager' object is not iterable - don't add model_attr to MultiValueField()!!!

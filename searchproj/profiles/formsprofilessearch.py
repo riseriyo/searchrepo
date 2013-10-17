@@ -94,7 +94,8 @@ class UploadsHaystackForm(SearchForm):
 		if query:
 			print"inside formsuploadshaystackform - inside 3rd if"
 
-			sqs = sqs.using('default').filter(content=AutoQuery(query)).highlight()
+			sqs = sqs.using('default').filter(content=AutoQuery(query)).order_by('user_auto', 'tagname_auto', 'title_auto', 'body').highlight()	# highlight the query in SearchResult objects
+			#sqs = sqs.using('default').filter(content=AutoQuery(query)).highlight()	# highlight the query in SearchResult objects
 
 			#print "formsprofilessearch: sqs %s" %sqs
 			print "in formsprofilessearch:  %s" %sqs

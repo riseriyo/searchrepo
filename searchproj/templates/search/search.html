@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
+{% load highlight %}
 
 {% block content %}
     {% if query %}
         <h3>Results</h3>
         <p><strong>Showing results for:</strong> <em>&quot;{{ query }}&quot;</em> </p>
         <ul>
+        <strong>PAGE.OBJECT_LIST:</strong> {{ page.object_list }}<br /><br />
         {% for result in page.object_list %}
-                <li>
-                <strong>PAGE.OBJECT_LIST:</strong> {{ page.object_list }}<br /><br />
+                <!--<li>
                 <strong>RESULT</strong>: {{ result.highlighted }}<br />
                 <strong>Result score: {{ result.score }}</strong><br />
                 <strong>Username:</strong> <a href="#" > {{ result.object.user }}</a><br />
@@ -35,9 +36,17 @@
                 Result verbose_name: {{ result.verbose_name }}<br />
                 Result verbose_name_plural: {{ result.verbose_name_plural }}<br />
                 Result search_index: {{ result.search_index }}<br />
-                ---------------------------------------------<br />
+                ---------------------------------------------<br />-->
 
-                {% if result.model_name == "userprofile" %}
+
+                {% if result.model_name  == "note" %}
+                    <strong>LAYOUT FOR NOTES</strong><br />
+                    {% include "search/search_notes.html" %}
+                {% else %}
+
+                {% endif %}
+
+                <!--{% if result.model_name == "userprofile" %}
                     <strong>LAYOUT FOR USERPROFILES</strong><br />
                    {% include "search/search_profiles.html" %}
                 {% elif result.model_name = "state" %}
@@ -52,7 +61,7 @@
                 {% elif result.model_name == 'filetype' %}
                     <strong>LAYOUT FOR FILETYPES</strong><br />
                 {% endif %}
-                </li>
+                </li>-->
         {% empty %}
             <p>No results found for <em>&quot;{{ query }}&quot;</em>.</p>
         {% endfor %}
