@@ -23,7 +23,7 @@ except ImportError:
 
 ###################### MANAGER CONFIGURATION
 ADMINS = (
-    # ('nugget', 'nugget.doe@egmail.com'),
+    (get_env_variable('SECRET_ADMIN'), get_env_variable('SECRET_EMAIL_ACCOUNT')),
 )
 
 MANAGERS = ADMINS

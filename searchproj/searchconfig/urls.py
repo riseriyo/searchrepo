@@ -26,7 +26,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 # 3rd party plugins
-from haystack.views import SearchView, FacetedSearchView, search_view_factory
+from haystack.views import SearchView, search_view_factory
 from haystack.forms import FacetedSearchForm
 from haystack.query import SearchQuerySet
 

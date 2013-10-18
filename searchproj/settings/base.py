@@ -54,8 +54,6 @@ DATABASES = {
 }
 ####################### END DATABASE CONFIGURATION 
 
-########### USER PROFILE CONFIGURATION
-#AUTH_USER_MODEL = "profiles.UserProfile"
 
 ######################## HAYSTACK CONFIGURATION
 HAYSTACK_CONNECTIONS = {

@@ -4,10 +4,6 @@ from haystack.forms import SearchForm
 from haystack.inputs import AutoQuery
 from haystack.query import EmptySearchQuerySet, SearchQuerySet
 
-from .models import UserProfile
-from uploads.models import Submission
-from notes.models import Tag, Note
-
 
 class ProfilesAutoCompleteForm(SearchForm):
 	"""slightly customized search form that allows filtering on SearchQuerySet"""
@@ -67,14 +63,13 @@ class ProfilesAutoCompleteForm(SearchForm):
 					if sobj:
 						temp = sobj | temp
 						print "temp %s" %temp
-
 				sqs = temp
-				print "in formsprofilessearch:  %s" %sqs
 
 		if self.load_all:
 			print"inside last if"
 			sqs = sqs.load_all()
 
+		print "in formsprofilessearch:  %s" %sqs
 		return sqs
 
 
@@ -97,11 +92,9 @@ class UploadsHaystackForm(SearchForm):
 			sqs = sqs.using('default').filter(content=AutoQuery(query)).order_by('user_auto', 'tagname_auto', 'title_auto', 'body').highlight()	# highlight the query in SearchResult objects
 			#sqs = sqs.using('default').filter(content=AutoQuery(query)).highlight()	# highlight the query in SearchResult objects
 
-			#print "formsprofilessearch: sqs %s" %sqs
-			print "in formsprofilessearch:  %s" %sqs
-
 		if self.load_all:
 			print"inside last if"
 			sqs = sqs.load_all()
 
+		print "uploadshaystackform: sqs %s" %sqs
 		return sqs

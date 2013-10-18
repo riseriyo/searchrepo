@@ -38,7 +38,6 @@ class NoteIndex(indexes.SearchIndex, indexes.Indexable):
 	text 				= indexes.CharField(document=True, use_template=True)
 	user 				= indexes.CharField(model_attr='user')					# note belongs to which userprofile
 	pub_date 			= indexes.DateTimeField(model_attr='pub_date')
-
 	body				= indexes.CharField(model_attr='body')
 
 	#content_auto		= indexes.EdgeNgramField(model_attr='author')
