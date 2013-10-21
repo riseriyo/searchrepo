@@ -13,20 +13,12 @@ from django.contrib import admin
 
 # project imports
 from .models import UserProfile
-from .search_indexes import UserProfileIndex
 from .models import Position
-from .search_indexes import PositionIndex
 from uploads.models import Submission
-from uploads.search_indexes import SubmissionIndex
 from uploads.models import Revision
-from uploads.search_indexes import RevisionIndex
 from uploads.models import Filetype
-from uploads.search_indexes import FiletypeIndex
 from notes.models import Tag
 from notes.models import Note
-from notes.search_indexes import NoteIndex
-
-
 
 #class SubmissionInline(admin.TabularInline):
 #	model		= Submission

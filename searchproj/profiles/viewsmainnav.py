@@ -44,11 +44,11 @@ class Gallery(TemplateView):
 	def get_context_data(self):
 		if Submission.objects.count() and Submission.objects.all().filter(vidstaffpick=True).count():
 			submissions = Submission.objects.all().order_by('-id')
-			taglist = getTags(submissions)
+			#taglist = getTags(submissions)
 			staffpicks = Submission.objects.all().filter(vidstaffpick=True).order_by('created')
-			return { 'title': 'Library', 'recent':True,'stafffaves':False,'staffpicks': staffpicks, 'submissions': submissions, 'taglist': taglist }
+			return { 'title': 'Gallery', 'recent':True,'stafffaves':False,'staffpicks': staffpicks, 'submissions': submissions, 'taglist': taglist, }
 		else:
-			return { 'title': 'Library', 'recent':False,'stafffaves':True,'staffpicks': None, 'submissions': None, 'taglist': None }
+			return { 'title': 'Gallery', 'recent':False,'stafffaves':True,'staffpicks': None, 'submissions': None, 'taglist': taglist, }
 	
 gallery = Gallery.as_view()
 

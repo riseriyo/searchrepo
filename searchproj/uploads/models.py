@@ -47,6 +47,9 @@ class Submission(TimeStampedModel):
 		self.file.delete(False)
 		super(Submission, self).delete(*args, **kwargs)
 
+	def displayTags(self):
+		return ', '.join([tag.tagname for tag in self.tags.all()])	
+
 def upload_source_to(instance, filename):
 	sourceExt = filename.split('.')[-1]
 	sanitized_filename = "%s.%s" %(instance.randnum, sourceExt)
